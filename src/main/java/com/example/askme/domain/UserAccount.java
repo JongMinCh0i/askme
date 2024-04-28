@@ -36,6 +36,10 @@ public class UserAccount extends AuditingFields {
     @ColumnDefault("0")
     private long questionCount = 0;
 
+    public void increaseQuestionCount() {
+        this.questionCount++;
+    }
+
     @Setter
     private String imageUrl;
 

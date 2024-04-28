@@ -49,6 +49,14 @@ public class Article extends AuditingFields {
     @ColumnDefault("0")
     private long likeCount = 0;
 
+    public void increaseViewCount() {
+        this.viewCount++;
+    }
+
+    public void increaseLikeCount() {
+        this.likeCount++;
+    }
+
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
     private final List<ArticleComment> articleComments = new ArrayList<>();
 

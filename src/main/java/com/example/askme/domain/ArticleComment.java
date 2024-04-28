@@ -38,6 +38,10 @@ public class ArticleComment extends AuditingFields {
     @ColumnDefault("0")
     private long likeCount = 0;
 
+    public void increaseLikeCount() {
+        this.likeCount++;
+    }
+
     private ArticleComment(Article article, UserAccount userAccount, ContentStatus status, String content, String imageUrl, int likeCount) {
         this.article = article;
         this.userAccount = userAccount;

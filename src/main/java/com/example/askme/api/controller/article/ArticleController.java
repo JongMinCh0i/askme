@@ -6,10 +6,9 @@ import com.example.askme.api.service.article.response.ArticleServiceResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/article")
@@ -22,6 +21,18 @@ public class ArticleController {
     public ResponseEntity<ArticleServiceResponse> createArticle(@Valid @RequestBody ArticleCreateRequest createRequestArticle) {
         articleService.saveArticle(createRequestArticle.toServiceRequest());
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ArticleServiceResponse> findById(@PathVariable Long id) {
+        ArticleServiceResponse response = articleService.findById(id);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<ArticleServiceResponse>> findAll() {
+        List<ArticleServiceResponse> responses = articleService.findAllArticles();
+        return ResponseEntity.ok(responses);
     }
 
 }

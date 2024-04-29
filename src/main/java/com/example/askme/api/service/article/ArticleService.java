@@ -41,5 +41,14 @@ public class ArticleService {
                 .map(ArticleServiceResponse::of)
                 .collect(Collectors.toList());
     }
+
+    @Transactional
+    public ArticleServiceResponse updateArticle(Long id, ArticleServiceRequest serviceRequest) {
+        Article article = articleRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다."));
+
+        article.update(serviceRequest.getTitle(), serviceRequest.getContent());
+        return ArticleServiceResponse.of(article);
+    }
 }
 

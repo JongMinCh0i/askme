@@ -74,4 +74,9 @@ public class Article extends AuditingFields {
     public static Article createArticle(Account account, String title, String content, SolveState state, ContentStatus status, String imageUrl, long viewCount, long likeCount) {
         return new Article(account, title, content, state, status, imageUrl, viewCount, likeCount);
     }
+
+    public void update(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
 }

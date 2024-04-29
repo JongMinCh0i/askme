@@ -35,4 +35,10 @@ public class ArticleController {
         return ResponseEntity.ok(responses);
     }
 
+    @PutMapping("/update/{id}")
+    public ResponseEntity<ArticleServiceResponse> updateArticle(@PathVariable Long id, @Valid @RequestBody ArticleCreateRequest updateRequestArticle) {
+        ArticleServiceResponse response = articleService.updateArticle(id, updateRequestArticle.toServiceRequest());
+        return ResponseEntity.ok(response);
+    }
+
 }

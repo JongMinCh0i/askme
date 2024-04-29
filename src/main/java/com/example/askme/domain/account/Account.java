@@ -1,17 +1,13 @@
 package com.example.askme.domain.account;
 
-import com.example.askme.domain.AuditingFields;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Account extends AuditingFields {
+public class Account {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +19,7 @@ public class Account extends AuditingFields {
 
     @Setter
     @Column(nullable = false)
-    private String userPassword;
+    private String password;
 
     @Setter
     @Column(nullable = false, length = 100)
@@ -44,15 +40,17 @@ public class Account extends AuditingFields {
     @Setter
     private String imageUrl;
 
-    private Account(String userId, String nickname, String email, int questionCount, String imageUrl) {
+    @Builder
+    private Account(String userId, String password, String nickname, String email, String imageUrl, long questionCount) {
         this.userId = userId;
+        this.password = password;
         this.nickname = nickname;
         this.email = email;
-        this.questionCount = questionCount;
         this.imageUrl = imageUrl;
+        this.questionCount = questionCount;
     }
 
-    public static Account createUser(String userId, String nickname, String email, int questionCount, String imageUrl) {
-        return new Account(userId, nickname, email, questionCount, imageUrl);
+    public static Account createUser(String userId, String password, String nickname, String email, String imageUrl, long questionCount) {
+        return new Account(userId, password, nickname, email, imageUrl, questionCount);
     }
 }

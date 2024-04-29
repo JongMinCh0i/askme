@@ -6,10 +6,7 @@ import com.example.askme.domain.constant.ContentStatus;
 import com.example.askme.domain.constant.SolveState;
 import com.example.askme.domain.account.Account;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.util.ArrayList;
@@ -63,7 +60,7 @@ public class Article extends AuditingFields {
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
     private final List<Comment> articleComments = new ArrayList<>();
 
-    private Article(Account account, String title, String content, SolveState state, ContentStatus status, String imageUrl, int viewCount, int likeCount) {
+    private Article(Account account, String title, String content, SolveState state, ContentStatus status, String imageUrl, long viewCount, long likeCount) {
         this.account = account;
         this.title = title;
         this.content = content;
@@ -74,7 +71,7 @@ public class Article extends AuditingFields {
         this.likeCount = likeCount;
     }
 
-    public static Article createArticle(Account account, String title, String content, SolveState state, ContentStatus status, String imageUrl, int viewCount, int likeCount) {
+    public static Article createArticle(Account account, String title, String content, SolveState state, ContentStatus status, String imageUrl, long viewCount, long likeCount) {
         return new Article(account, title, content, state, status, imageUrl, viewCount, likeCount);
     }
 }

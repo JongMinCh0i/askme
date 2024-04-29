@@ -50,5 +50,14 @@ public class ArticleService {
         article.update(serviceRequest.getTitle(), serviceRequest.getContent());
         return ArticleServiceResponse.of(article);
     }
+
+    @Transactional
+    public ArticleServiceResponse deleteArticle(Long id) {
+        Article article = articleRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다."));
+
+        articleRepository.delete(article);
+        return ArticleServiceResponse.of(article);
+    }
 }
 

@@ -1,7 +1,10 @@
-package com.example.askme.domain;
+package com.example.askme.domain.article;
 
+import com.example.askme.domain.AuditingFields;
+import com.example.askme.domain.comment.Comment;
 import com.example.askme.domain.constant.ContentStatus;
 import com.example.askme.domain.constant.SolveState;
+import com.example.askme.domain.account.Account;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -24,7 +27,7 @@ public class Article extends AuditingFields {
     @Setter
     @JoinColumn(name = "userId")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private UserAccount userAccount;
+    private Account account;
 
     @Setter
     @Column(nullable = false, length = 100)
@@ -58,10 +61,10 @@ public class Article extends AuditingFields {
     }
 
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
-    private final List<ArticleComment> articleComments = new ArrayList<>();
+    private final List<Comment> articleComments = new ArrayList<>();
 
-    private Article(UserAccount userAccount, String title, String content, SolveState state, ContentStatus status, String imageUrl, int viewCount, int likeCount) {
-        this.userAccount = userAccount;
+    private Article(Account account, String title, String content, SolveState state, ContentStatus status, String imageUrl, int viewCount, int likeCount) {
+        this.account = account;
         this.title = title;
         this.content = content;
         this.state = state;
@@ -71,7 +74,7 @@ public class Article extends AuditingFields {
         this.likeCount = likeCount;
     }
 
-    public static Article createArticle(UserAccount userAccount, String title, String content, SolveState state, ContentStatus status, String imageUrl, int viewCount, int likeCount) {
-        return new Article(userAccount, title, content, state, status, imageUrl, viewCount, likeCount);
+    public static Article createArticle(Account account, String title, String content, SolveState state, ContentStatus status, String imageUrl, int viewCount, int likeCount) {
+        return new Article(account, title, content, state, status, imageUrl, viewCount, likeCount);
     }
 }

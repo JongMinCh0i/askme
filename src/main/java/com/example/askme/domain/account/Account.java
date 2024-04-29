@@ -1,5 +1,6 @@
-package com.example.askme.domain;
+package com.example.askme.domain.account;
 
+import com.example.askme.domain.AuditingFields;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -10,7 +11,7 @@ import org.hibernate.annotations.ColumnDefault;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class UserAccount extends AuditingFields {
+public class Account extends AuditingFields {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,7 +44,7 @@ public class UserAccount extends AuditingFields {
     @Setter
     private String imageUrl;
 
-    private UserAccount(String userId, String nickname, String email, int questionCount, String imageUrl) {
+    private Account(String userId, String nickname, String email, int questionCount, String imageUrl) {
         this.userId = userId;
         this.nickname = nickname;
         this.email = email;
@@ -51,7 +52,7 @@ public class UserAccount extends AuditingFields {
         this.imageUrl = imageUrl;
     }
 
-    public static UserAccount createUser(String userId, String nickname, String email, int questionCount, String imageUrl) {
-        return new UserAccount(userId, nickname, email, questionCount, imageUrl);
+    public static Account createUser(String userId, String nickname, String email, int questionCount, String imageUrl) {
+        return new Account(userId, nickname, email, questionCount, imageUrl);
     }
 }

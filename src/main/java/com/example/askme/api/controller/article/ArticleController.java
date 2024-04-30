@@ -46,4 +46,10 @@ public class ArticleController {
         ArticleServiceResponse response = articleService.deleteArticle(id);
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/like/{id}")
+    public ResponseEntity<ArticleServiceResponse> likeArticle(@PathVariable Long id) {
+        ArticleServiceResponse response = articleService.likeArticle(id);
+        return ResponseEntity.ok(response);
+    }
 }

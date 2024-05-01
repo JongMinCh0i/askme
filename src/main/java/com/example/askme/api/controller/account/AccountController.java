@@ -21,8 +21,7 @@ public class AccountController {
 
     @PostMapping("/signup")
     public ResponseEntity<AccountServiceResponse> signUp(@Valid @RequestBody AccountCreateRequest createRequestAccount) {
-        Account account = accountService.signUp(createRequestAccount);
-        return ResponseEntity.ok(AccountServiceResponse.of(account));
+        return ResponseEntity.ok(accountService.signUp(createRequestAccount));
     }
 
 }

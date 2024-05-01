@@ -1,6 +1,7 @@
 package com.example.askme.api.service.account;
 
 import com.example.askme.api.controller.account.request.AccountCreateRequest;
+import com.example.askme.api.service.account.response.AccountServiceResponse;
 import com.example.askme.dao.account.Account;
 import com.example.askme.dao.account.AccountRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,8 +16,9 @@ public class AccountService {
     private final AccountRepository accountRepository;
 
     @Transactional
-    public Account signUp(AccountCreateRequest createRequestAccount) {
-        return accountRepository.save(createRequestAccount.toServiceRequest().toEntity());
+    public AccountServiceResponse signUp(AccountCreateRequest createRequestAccount) {
+        Account account = accountRepository.save(createRequestAccount.toServiceRequest().toEntity());
+        return AccountServiceResponse.of(account);
     }
 
 }

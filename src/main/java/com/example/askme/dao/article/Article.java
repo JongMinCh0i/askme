@@ -2,8 +2,8 @@ package com.example.askme.dao.article;
 
 import com.example.askme.dao.AuditingFields;
 import com.example.askme.dao.comment.Comment;
-import com.example.askme.dao.constant.ContentStatus;
-import com.example.askme.dao.constant.SolveState;
+import com.example.askme.common.constant.ContentStatus;
+import com.example.askme.common.constant.SolveState;
 import com.example.askme.dao.account.Account;
 import jakarta.persistence.*;
 import lombok.*;

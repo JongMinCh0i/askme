@@ -1,4 +1,4 @@
-package com.example.askme.dao.constant;
+package com.example.askme.common.constant;
 
 public enum SolveState {
 

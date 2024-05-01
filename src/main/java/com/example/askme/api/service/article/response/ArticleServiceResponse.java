@@ -1,8 +1,8 @@
 package com.example.askme.api.service.article.response;
 
 import com.example.askme.dao.article.Article;
-import com.example.askme.dao.constant.ContentStatus;
-import com.example.askme.dao.constant.SolveState;
+import com.example.askme.common.constant.ContentStatus;
+import com.example.askme.common.constant.SolveState;
 import lombok.Builder;
 import lombok.Getter;
 

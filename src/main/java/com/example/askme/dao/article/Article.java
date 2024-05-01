@@ -53,8 +53,14 @@ public class Article extends AuditingFields {
         this.viewCount++;
     }
 
-    public void increaseLikeCount() {
-        this.likeCount++;
+    public void increaseLikeCount() {this.likeCount++; }
+
+    public void decreaseLikeCount() {
+        this.likeCount--;
+
+        if (this.likeCount < 0) {
+            this.likeCount = 0;
+        }
     }
 
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)

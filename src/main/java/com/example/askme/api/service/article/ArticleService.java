@@ -68,5 +68,16 @@ public class ArticleService {
         article.increaseLikeCount();
         return ArticleServiceResponse.of(article);
     }
+
+    @Transactional
+    public ArticleServiceResponse dislikeArticle(Long id) {
+        Article article = articleRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다."));
+
+        article.decreaseLikeCount();
+
+
+        return ArticleServiceResponse.of(article);
+    }
 }
 

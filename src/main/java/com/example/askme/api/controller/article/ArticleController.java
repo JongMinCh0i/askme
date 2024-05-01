@@ -52,4 +52,10 @@ public class ArticleController {
         ArticleServiceResponse response = articleService.likeArticle(id);
         return ResponseEntity.ok(response);
     }
+
+    @PostMapping("/{id}/dislike")
+    public ResponseEntity<ArticleServiceResponse> dislikeArticle(@PathVariable Long id) {
+        ArticleServiceResponse response = articleService.dislikeArticle(id);
+        return ResponseEntity.ok(response);
+    }
 }

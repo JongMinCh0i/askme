@@ -3,6 +3,7 @@ package com.example.askme.api.controller.account;
 import com.example.askme.api.controller.account.request.AccountCreateRequest;
 import com.example.askme.api.service.account.AccountService;
 import com.example.askme.api.service.account.response.AccountServiceResponse;
+import com.example.askme.dao.account.Account;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +21,8 @@ public class AccountController {
 
     @PostMapping("/signup")
     public ResponseEntity<AccountServiceResponse> signUp(@Valid @RequestBody AccountCreateRequest createRequestAccount) {
-        accountService.signUp(createRequestAccount);
-        return ResponseEntity.ok().build();
+        Account account = accountService.signUp(createRequestAccount);
+        return ResponseEntity.ok(AccountServiceResponse.of(account));
     }
 
 }

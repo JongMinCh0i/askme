@@ -1,6 +1,7 @@
 package com.example.askme.api.service.account;
 
 import com.example.askme.api.controller.account.request.AccountCreateRequest;
+import com.example.askme.dao.account.Account;
 import com.example.askme.dao.account.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,8 +15,8 @@ public class AccountService {
     private final AccountRepository accountRepository;
 
     @Transactional
-    public void signUp(AccountCreateRequest createRequestAccount) {
-        accountRepository.save(createRequestAccount.toServiceRequest().toEntity());
+    public Account signUp(AccountCreateRequest createRequestAccount) {
+        return accountRepository.save(createRequestAccount.toServiceRequest().toEntity());
     }
 
 }

@@ -19,8 +19,7 @@ public class ArticleController {
 
     @PostMapping("/create")
     public ResponseEntity<ArticleServiceResponse> createArticle(@Valid @RequestBody ArticleCreateRequest createRequestArticle) {
-        articleService.saveArticle(createRequestArticle.toServiceRequest());
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(articleService.saveArticle(createRequestArticle.toServiceRequest()));
     }
 
     @GetMapping("/{id}")

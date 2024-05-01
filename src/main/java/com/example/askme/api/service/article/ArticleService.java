@@ -22,12 +22,12 @@ public class ArticleService {
     private final AccountRepository accountRepository;
 
     @Transactional
-    public void saveArticle(ArticleServiceRequest requestArticle) {
+    public ArticleServiceResponse saveArticle (ArticleServiceRequest requestArticle) {
         Account account = accountRepository.findById(requestArticle.getAccountId())
                 .orElseThrow(() -> new IllegalArgumentException("해당 계정이 존재하지 않습니다."));
 
-        Article article = requestArticle.toEntity(account);
-        articleRepository.save(article);
+        articleRepository.save(requestArticle.toEntity(account));
+        return ArticleServiceResponse.of(articleRepository.save(requestArticle.toEntity(account)));
     }
 
     public ArticleServiceResponse findById(Long id) {

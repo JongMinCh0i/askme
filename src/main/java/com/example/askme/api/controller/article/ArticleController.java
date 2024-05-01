@@ -17,37 +17,37 @@ public class ArticleController {
 
     private final ArticleService articleService;
 
-    @PostMapping("/save")
+    @PostMapping("/create")
     public ResponseEntity<ArticleServiceResponse> createArticle(@Valid @RequestBody ArticleCreateRequest createRequestArticle) {
         articleService.saveArticle(createRequestArticle.toServiceRequest());
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ArticleServiceResponse> findById(@PathVariable Long id) {
+    public ResponseEntity<ArticleServiceResponse> getArticle(@PathVariable Long id) {
         ArticleServiceResponse response = articleService.findById(id);
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/all")
-    public ResponseEntity<List<ArticleServiceResponse>> findAll() {
+    @GetMapping("/list")
+    public ResponseEntity<List<ArticleServiceResponse>> getAllArticles() {
         List<ArticleServiceResponse> responses = articleService.findAllArticles();
         return ResponseEntity.ok(responses);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<ArticleServiceResponse> updateArticle(@PathVariable Long id, @Valid @RequestBody ArticleCreateRequest updateRequestArticle) {
         ArticleServiceResponse response = articleService.updateArticle(id, updateRequestArticle.toServiceRequest());
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<ArticleServiceResponse> deleteArticle(@PathVariable Long id) {
         ArticleServiceResponse response = articleService.deleteArticle(id);
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/like/{id}")
+    @PostMapping("/{id}/like")
     public ResponseEntity<ArticleServiceResponse> likeArticle(@PathVariable Long id) {
         ArticleServiceResponse response = articleService.likeArticle(id);
         return ResponseEntity.ok(response);

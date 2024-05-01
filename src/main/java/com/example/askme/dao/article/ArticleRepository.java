@@ -1,4 +1,4 @@
-package com.example.askme.domain.article;
+package com.example.askme.dao.article;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

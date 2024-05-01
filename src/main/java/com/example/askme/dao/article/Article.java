@@ -1,10 +1,10 @@
-package com.example.askme.domain.article;
+package com.example.askme.dao.article;
 
-import com.example.askme.domain.AuditingFields;
-import com.example.askme.domain.comment.Comment;
-import com.example.askme.domain.constant.ContentStatus;
-import com.example.askme.domain.constant.SolveState;
-import com.example.askme.domain.account.Account;
+import com.example.askme.dao.AuditingFields;
+import com.example.askme.dao.comment.Comment;
+import com.example.askme.dao.constant.ContentStatus;
+import com.example.askme.dao.constant.SolveState;
+import com.example.askme.dao.account.Account;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;

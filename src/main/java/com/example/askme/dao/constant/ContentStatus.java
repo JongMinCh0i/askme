@@ -1,4 +1,4 @@
-package com.example.askme.domain.constant;
+package com.example.askme.dao.constant;
 
 public enum ContentStatus {
     PUBLISH,  // 게시글, 댓글이 최초로 공개된 상태

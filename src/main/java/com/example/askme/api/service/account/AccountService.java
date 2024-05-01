@@ -1,7 +1,7 @@
 package com.example.askme.api.service.account;
 
 import com.example.askme.api.controller.account.request.AccountCreateRequest;
-import com.example.askme.domain.account.AccountRepository;
+import com.example.askme.dao.account.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -2,10 +2,10 @@ package com.example.askme.api.service.article;
 
 import com.example.askme.api.service.article.request.ArticleServiceRequest;
 import com.example.askme.api.service.article.response.ArticleServiceResponse;
-import com.example.askme.domain.account.Account;
-import com.example.askme.domain.account.AccountRepository;
-import com.example.askme.domain.article.Article;
-import com.example.askme.domain.article.ArticleRepository;
+import com.example.askme.dao.account.Account;
+import com.example.askme.dao.account.AccountRepository;
+import com.example.askme.dao.article.Article;
+import com.example.askme.dao.article.ArticleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

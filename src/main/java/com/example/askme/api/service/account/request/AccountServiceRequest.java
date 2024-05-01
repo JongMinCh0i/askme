@@ -1,6 +1,6 @@
 package com.example.askme.api.service.account.request;
 
-import com.example.askme.domain.account.Account;
+import com.example.askme.dao.account.Account;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,8 +1,8 @@
 package com.example.askme.api.controller.article.request;
 
 import com.example.askme.api.service.article.request.ArticleServiceRequest;
-import com.example.askme.domain.constant.ContentStatus;
-import com.example.askme.domain.constant.SolveState;
+import com.example.askme.dao.constant.ContentStatus;
+import com.example.askme.dao.constant.SolveState;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;

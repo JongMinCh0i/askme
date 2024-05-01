@@ -1,9 +1,9 @@
-package com.example.askme.domain.comment;
+package com.example.askme.dao.comment;
 
-import com.example.askme.domain.AuditingFields;
-import com.example.askme.domain.article.Article;
-import com.example.askme.domain.account.Account;
-import com.example.askme.domain.constant.ContentStatus;
+import com.example.askme.dao.AuditingFields;
+import com.example.askme.dao.article.Article;
+import com.example.askme.dao.account.Account;
+import com.example.askme.dao.constant.ContentStatus;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;

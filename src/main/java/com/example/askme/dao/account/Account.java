@@ -1,4 +1,4 @@
-package com.example.askme.domain.account;
+package com.example.askme.dao.account;
 
 import jakarta.persistence.*;
 import lombok.*;

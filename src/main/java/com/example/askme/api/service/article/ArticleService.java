@@ -60,6 +60,7 @@ public class ArticleService {
         return ArticleServiceResponse.of(article);
     }
 
+    @Transactional
     public ArticleServiceResponse likeArticle(Long id) {
         Article article = articleRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다."));

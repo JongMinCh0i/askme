@@ -2,6 +2,7 @@ package com.example.askme.api.service.article;
 
 import com.example.askme.api.service.article.request.ArticleServiceRequest;
 import com.example.askme.api.service.article.response.ArticleServiceResponse;
+import com.example.askme.common.exception.BusinessException;
 import com.example.askme.dao.account.Account;
 import com.example.askme.dao.account.AccountRepository;
 import com.example.askme.dao.article.Article;
@@ -24,7 +25,7 @@ public class ArticleService {
     @Transactional
     public ArticleServiceResponse saveArticle (ArticleServiceRequest requestArticle) {
         Account account = accountRepository.findById(requestArticle.getAccountId())
-                .orElseThrow(() -> new IllegalArgumentException("해당 계정이 존재하지 않습니다."));
+                .orElseThrow(() -> new BusinessException("해당 계정이 존재하지 않습니다."));
 
         articleRepository.save(requestArticle.toEntity(account));
         return ArticleServiceResponse.of(articleRepository.save(requestArticle.toEntity(account)));
@@ -32,7 +33,7 @@ public class ArticleService {
 
     public ArticleServiceResponse findById(Long id) {
         Article article = articleRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다."));
+                .orElseThrow(() -> new BusinessException("해당 게시글이 존재하지 않습니다."));
         return ArticleServiceResponse.of(article);
     }
 
@@ -45,7 +46,7 @@ public class ArticleService {
     @Transactional
     public ArticleServiceResponse updateArticle(Long id, ArticleServiceRequest serviceRequest) {
         Article article = articleRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다."));
+                .orElseThrow(() -> new BusinessException("해당 게시글이 존재하지 않습니다."));
 
         article.update(serviceRequest.getTitle(), serviceRequest.getContent());
         return ArticleServiceResponse.of(article);
@@ -54,7 +55,7 @@ public class ArticleService {
     @Transactional
     public ArticleServiceResponse deleteArticle(Long id) {
         Article article = articleRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다."));
+                .orElseThrow(() -> new BusinessException("해당 게시글이 존재하지 않습니다."));
 
         articleRepository.delete(article);
         return ArticleServiceResponse.of(article);
@@ -63,7 +64,7 @@ public class ArticleService {
     @Transactional
     public ArticleServiceResponse likeArticle(Long id) {
         Article article = articleRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다."));
+                .orElseThrow(() -> new BusinessException("해당 게시글이 존재하지 않습니다."));
 
         article.increaseLikeCount();
         return ArticleServiceResponse.of(article);
@@ -72,7 +73,7 @@ public class ArticleService {
     @Transactional
     public ArticleServiceResponse dislikeArticle(Long id) {
         Article article = articleRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다."));
+                .orElseThrow(() -> new BusinessException("해당 게시글이 존재하지 않습니다."));
 
         article.decreaseLikeCount();
 

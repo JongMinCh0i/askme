@@ -3,10 +3,9 @@ package com.example.askme.api.controller.account;
 import com.example.askme.api.controller.account.request.AccountCreateRequest;
 import com.example.askme.api.service.account.AccountService;
 import com.example.askme.api.service.account.response.AccountServiceResponse;
-import com.example.askme.dao.account.Account;
+import com.example.askme.common.ResultResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,8 +19,8 @@ public class AccountController {
     private final AccountService accountService;
 
     @PostMapping("/signup")
-    public ResponseEntity<AccountServiceResponse> signUp(@Valid @RequestBody AccountCreateRequest createRequestAccount) {
-        return ResponseEntity.ok(accountService.signUp(createRequestAccount));
+    public ResultResponse<AccountServiceResponse> signUp(@Valid @RequestBody AccountCreateRequest createRequestAccount) {
+        return ResultResponse.success(accountService.signUp(createRequestAccount));
     }
 
 }

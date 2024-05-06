@@ -3,9 +3,9 @@ package com.example.askme.api.controller.article;
 import com.example.askme.api.controller.article.request.ArticleCreateRequest;
 import com.example.askme.api.service.article.ArticleService;
 import com.example.askme.api.service.article.response.ArticleServiceResponse;
+import com.example.askme.common.ResultResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,43 +18,43 @@ public class ArticleController {
     private final ArticleService articleService;
 
     @PostMapping("/create")
-    public ResponseEntity<ArticleServiceResponse> createArticle(@Valid @RequestBody ArticleCreateRequest createRequestArticle) {
-        return ResponseEntity.ok(articleService.saveArticle(createRequestArticle.toServiceRequest()));
+    public ResultResponse<ArticleServiceResponse> createArticle(@Valid @RequestBody ArticleCreateRequest createRequestArticle) {
+        return ResultResponse.success(articleService.saveArticle(createRequestArticle.toServiceRequest()));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ArticleServiceResponse> getArticle(@PathVariable Long id) {
+    public ResultResponse<ArticleServiceResponse> getArticle(@PathVariable Long id) {
         ArticleServiceResponse response = articleService.findById(id);
-        return ResponseEntity.ok(response);
+        return ResultResponse.success(response);
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<ArticleServiceResponse>> getAllArticles() {
+    public ResultResponse<List<ArticleServiceResponse>> getAllArticles() {
         List<ArticleServiceResponse> responses = articleService.findAllArticles();
-        return ResponseEntity.ok(responses);
+        return ResultResponse.success(responses);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ArticleServiceResponse> updateArticle(@PathVariable Long id, @Valid @RequestBody ArticleCreateRequest updateRequestArticle) {
+    public ResultResponse<ArticleServiceResponse> updateArticle(@PathVariable Long id, @Valid @RequestBody ArticleCreateRequest updateRequestArticle) {
         ArticleServiceResponse response = articleService.updateArticle(id, updateRequestArticle.toServiceRequest());
-        return ResponseEntity.ok(response);
+        return ResultResponse.success(response);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ArticleServiceResponse> deleteArticle(@PathVariable Long id) {
+    public ResultResponse<ArticleServiceResponse> deleteArticle(@PathVariable Long id) {
         ArticleServiceResponse response = articleService.deleteArticle(id);
-        return ResponseEntity.ok().build();
+        return ResultResponse.success(response);
     }
 
     @PostMapping("/{id}/like")
-    public ResponseEntity<ArticleServiceResponse> likeArticle(@PathVariable Long id) {
+    public ResultResponse<ArticleServiceResponse> likeArticle(@PathVariable Long id) {
         ArticleServiceResponse response = articleService.likeArticle(id);
-        return ResponseEntity.ok(response);
+        return ResultResponse.success(response);
     }
 
     @PostMapping("/{id}/dislike")
-    public ResponseEntity<ArticleServiceResponse> dislikeArticle(@PathVariable Long id) {
+    public ResultResponse<ArticleServiceResponse> dislikeArticle(@PathVariable Long id) {
         ArticleServiceResponse response = articleService.dislikeArticle(id);
-        return ResponseEntity.ok(response);
+        return ResultResponse.success(response);
     }
 }

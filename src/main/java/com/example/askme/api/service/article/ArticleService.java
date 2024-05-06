@@ -26,8 +26,6 @@ public class ArticleService {
     public ArticleServiceResponse saveArticle (ArticleServiceRequest requestArticle) {
         Account account = accountRepository.findById(requestArticle.getAccountId())
                 .orElseThrow(() -> new BusinessException("해당 계정이 존재하지 않습니다."));
-
-        articleRepository.save(requestArticle.toEntity(account));
         return ArticleServiceResponse.of(articleRepository.save(requestArticle.toEntity(account)));
     }
 

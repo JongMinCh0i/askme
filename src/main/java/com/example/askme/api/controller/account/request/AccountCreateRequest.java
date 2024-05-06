@@ -2,7 +2,7 @@ package com.example.askme.api.controller.account.request;
 
 import com.example.askme.api.service.account.request.AccountServiceRequest;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,20 +11,20 @@ import lombok.Getter;
 @Getter
 public class AccountCreateRequest {
 
-    @NotNull
+    @NotEmpty(message = "닉네임은 필수입니다.")
     @Size(max = 50)
     private String nickname;
 
-    @NotNull
+    @NotEmpty(message = "로그인 Id는 필수입니다.")
     @Size(max = 50)
     private String userId;
 
-    @Email
+    @Email(message = "이메일 형식이 아닙니다.")
     @Size(max = 50)
-    @NotNull
+    @NotEmpty(message = "이메일은 필수입니다.")
     private String email;
 
-    @NotNull
+    @NotEmpty(message = "비밀번호는 필수입니다.")
     private String password;
 
     private String imageUrl;

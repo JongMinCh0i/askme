@@ -1,5 +1,7 @@
 package com.example.askme.dao.account;
 
+import com.example.askme.common.constant.MemberType;
+import com.example.askme.dao.AuditingTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -7,7 +9,7 @@ import org.hibernate.annotations.ColumnDefault;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Account {
+public class Account extends AuditingTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,6 +22,10 @@ public class Account {
     @Setter
     @Column(nullable = false)
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private MemberType memberType;
 
     @Setter
     @Column(nullable = false, length = 100)
@@ -41,16 +47,17 @@ public class Account {
     private String imageUrl;
 
     @Builder
-    private Account(String userId, String password, String nickname, String email, String imageUrl, long questionCount) {
+    private Account(String userId, String password, MemberType memberType, String nickname, String email, String imageUrl, long questionCount) {
         this.userId = userId;
         this.password = password;
         this.nickname = nickname;
+        this.memberType = memberType;
         this.email = email;
         this.imageUrl = imageUrl;
         this.questionCount = questionCount;
     }
 
-    public static Account createUser(String userId, String password, String nickname, String email, String imageUrl, long questionCount) {
-        return new Account(userId, password, nickname, email, imageUrl, questionCount);
+    public static Account createUser(String userId, String password, MemberType memberType, String nickname, String email, String imageUrl, long questionCount) {
+        return new Account(userId, password, memberType, nickname, email, imageUrl, questionCount);
     }
 }

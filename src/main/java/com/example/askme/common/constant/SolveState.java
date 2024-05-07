@@ -1,4 +1,4 @@
-package com.example.askme.domain.constant;
+package com.example.askme.common.constant;
 
 public enum SolveState {
 

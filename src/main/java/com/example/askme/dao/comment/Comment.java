@@ -1,6 +1,9 @@
-package com.example.askme.domain;
+package com.example.askme.dao.comment;
 
-import com.example.askme.domain.constant.ContentStatus;
+import com.example.askme.dao.AuditingFields;
+import com.example.askme.dao.article.Article;
+import com.example.askme.dao.account.Account;
+import com.example.askme.common.constant.ContentStatus;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -11,7 +14,7 @@ import org.hibernate.annotations.ColumnDefault;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ArticleComment extends AuditingFields {
+public class Comment extends AuditingFields {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +26,7 @@ public class ArticleComment extends AuditingFields {
     @Setter
     @JoinColumn(name = "userId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    private UserAccount userAccount;
+    private Account account;
 
     @Enumerated(value = EnumType.STRING)
     private ContentStatus status;
@@ -38,16 +41,20 @@ public class ArticleComment extends AuditingFields {
     @ColumnDefault("0")
     private long likeCount = 0;
 
-    private ArticleComment(Article article, UserAccount userAccount, ContentStatus status, String content, String imageUrl, int likeCount) {
+    public void increaseLikeCount() {
+        this.likeCount++;
+    }
+
+    private Comment(Article article, Account account, ContentStatus status, String content, String imageUrl, int likeCount) {
         this.article = article;
-        this.userAccount = userAccount;
+        this.account = account;
         this.status = status;
         this.content = content;
         this.imageUrl = imageUrl;
         this.likeCount = likeCount;
     }
 
-    public static ArticleComment createArticleComment(Article article, UserAccount userAccount, String content, String imageUrl) {
-        return new ArticleComment(article, userAccount, ContentStatus.PUBLISH, content, imageUrl, 0);
+    public static Comment createArticleComment(Article article, Account account, String content, String imageUrl) {
+        return new Comment(article, account, ContentStatus.PUBLISH, content, imageUrl, 0);
     }
 }

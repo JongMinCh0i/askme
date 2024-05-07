@@ -7,11 +7,12 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @Builder
+@NoArgsConstructor
 public class ArticleCreateRequest {
-
     @NotNull
     private Long accountId;
 
@@ -34,6 +35,17 @@ public class ArticleCreateRequest {
 
     @Builder.Default
     private long likeCount = 0L;
+
+    private ArticleCreateRequest(Long accountId, String title, String content, SolveState state, ContentStatus status, String imageUrl, long viewCount, long likeCount) {
+        this.accountId = accountId;
+        this.title = title;
+        this.content = content;
+        this.state = state;
+        this.status = status;
+        this.imageUrl = imageUrl;
+        this.viewCount = viewCount;
+        this.likeCount = likeCount;
+    }
 
     public ArticleServiceRequest toServiceRequest() {
         return ArticleServiceRequest.builder()

@@ -1,6 +1,6 @@
 package com.example.askme.dao.comment;
 
-import com.example.askme.dao.AuditingFields;
+import com.example.askme.dao.AuditingEntity;
 import com.example.askme.dao.article.Article;
 import com.example.askme.dao.account.Account;
 import com.example.askme.common.constant.ContentStatus;
@@ -14,7 +14,7 @@ import org.hibernate.annotations.ColumnDefault;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Comment extends AuditingFields {
+public class Comment extends AuditingEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

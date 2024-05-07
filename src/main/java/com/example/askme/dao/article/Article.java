@@ -1,6 +1,6 @@
 package com.example.askme.dao.article;
 
-import com.example.askme.dao.AuditingFields;
+import com.example.askme.dao.AuditingTimeEntity;
 import com.example.askme.dao.comment.Comment;
 import com.example.askme.common.constant.ContentStatus;
 import com.example.askme.common.constant.SolveState;
@@ -15,7 +15,7 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Article extends AuditingFields {
+public class Article extends AuditingTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

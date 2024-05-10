@@ -20,7 +20,9 @@ public class Comment extends AuditingEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @Setter
+    @JoinColumn(name = "articleId")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Article article;
 
     @Setter

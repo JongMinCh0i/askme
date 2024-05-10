@@ -63,7 +63,7 @@ public class Article extends AuditingTimeEntity {
         }
     }
 
-    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<Comment> articleComments = new ArrayList<>();
 
     private Article(Account account, String title, String content, SolveState state, ContentStatus status, String imageUrl, long viewCount, long likeCount) {
@@ -85,4 +85,15 @@ public class Article extends AuditingTimeEntity {
         this.title = title;
         this.content = content;
     }
+
+    public void addComment(Comment comment) {
+        this.articleComments.add(comment);
+        comment.setArticle(this);
+    }
+
+    public void removeComment(Comment comment) {
+        this.articleComments.remove(comment);
+        comment.setArticle(null);
+    }
+
 }

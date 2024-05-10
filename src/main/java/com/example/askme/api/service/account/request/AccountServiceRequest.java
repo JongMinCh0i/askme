@@ -1,10 +1,11 @@
 package com.example.askme.api.service.account.request;
 
-import com.example.askme.common.constant.MemberType;
 import com.example.askme.dao.account.Account;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import static com.example.askme.common.constant.Role.*;
 
 @Getter
 @NoArgsConstructor
@@ -30,7 +31,7 @@ public class AccountServiceRequest {
         return Account.createUser(
                 userId,
                 password,
-                MemberType.QUESTIONER,
+                QUESTIONER,
                 nickname,
                 email,
                 imageUrl,

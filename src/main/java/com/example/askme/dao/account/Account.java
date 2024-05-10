@@ -1,6 +1,6 @@
 package com.example.askme.dao.account;
 
-import com.example.askme.common.constant.MemberType;
+import com.example.askme.common.constant.Role;
 import com.example.askme.dao.AuditingTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -25,7 +25,7 @@ public class Account extends AuditingTimeEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private MemberType memberType;
+    private Role role;
 
     @Setter
     @Column(nullable = false, length = 100)
@@ -47,17 +47,17 @@ public class Account extends AuditingTimeEntity {
     private String imageUrl;
 
     @Builder
-    private Account(String userId, String password, MemberType memberType, String nickname, String email, String imageUrl, long questionCount) {
+    private Account(String userId, String password, Role role, String nickname, String email, String imageUrl, long questionCount) {
         this.userId = userId;
         this.password = password;
         this.nickname = nickname;
-        this.memberType = memberType;
+        this.role = role;
         this.email = email;
         this.imageUrl = imageUrl;
         this.questionCount = questionCount;
     }
 
-    public static Account createUser(String userId, String password, MemberType memberType, String nickname, String email, String imageUrl, long questionCount) {
-        return new Account(userId, password, memberType, nickname, email, imageUrl, questionCount);
+    public static Account createUser(String userId, String password, Role role, String nickname, String email, String imageUrl, long questionCount) {
+        return new Account(userId, password, role, nickname, email, imageUrl, questionCount);
     }
 }

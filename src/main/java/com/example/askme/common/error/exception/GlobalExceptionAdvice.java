@@ -54,4 +54,18 @@ public class GlobalExceptionAdvice {
 
         return ResultResponse.fail(errorMessage);
     }
+
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(AuthenticationException.class)
+    protected ResultResponse<String> handleJwtTokenException(AuthenticationException e) {
+        String errorId = UUID.randomUUID().toString();
+
+        log.error("[{}] JWT Authorization error ", errorId);
+
+        String errorMessage = String.format(
+                "[%s] 토큰에 문제가 발생 했습니다. 문제 원인: %s",
+                errorId, String.join(", ", e.getMessage()));
+
+        return ResultResponse.fail(errorMessage);
+    }
 }

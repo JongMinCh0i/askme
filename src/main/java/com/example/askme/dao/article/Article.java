@@ -1,6 +1,6 @@
 package com.example.askme.dao.article;
 
-import com.example.askme.dao.AuditingFields;
+import com.example.askme.dao.AuditingTimeEntity;
 import com.example.askme.dao.comment.Comment;
 import com.example.askme.common.constant.ContentStatus;
 import com.example.askme.common.constant.SolveState;
@@ -15,7 +15,7 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Article extends AuditingFields {
+public class Article extends AuditingTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -63,7 +63,7 @@ public class Article extends AuditingFields {
         }
     }
 
-    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<Comment> articleComments = new ArrayList<>();
 
     private Article(Account account, String title, String content, SolveState state, ContentStatus status, String imageUrl, long viewCount, long likeCount) {
@@ -85,4 +85,15 @@ public class Article extends AuditingFields {
         this.title = title;
         this.content = content;
     }
+
+    public void addComment(Comment comment) {
+        this.articleComments.add(comment);
+        comment.setArticle(this);
+    }
+
+    public void removeComment(Comment comment) {
+        this.articleComments.remove(comment);
+        comment.setArticle(null);
+    }
+
 }

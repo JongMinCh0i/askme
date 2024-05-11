@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import static com.example.askme.common.constant.Role.*;
+
 @Getter
 @NoArgsConstructor
 public class AccountServiceRequest {
@@ -29,6 +31,7 @@ public class AccountServiceRequest {
         return Account.createUser(
                 userId,
                 password,
+                QUESTIONER,
                 nickname,
                 email,
                 imageUrl,

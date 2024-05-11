@@ -26,13 +26,13 @@ public class ArticleService {
     @Transactional
     public ArticleServiceResponse saveArticle(ArticleServiceRequest requestArticle) {
         Account account = accountRepository.findById(requestArticle.getAccountId())
-                .orElseThrow(() -> new BusinessException(ErrorCode.ACCOUNT_NOT_FOUND, "해당 계정이 존재하지 않습니다."));
+                .orElseThrow(() -> new BusinessException(ErrorCode.ACCOUNT_NOT_FOUND, "계정 ID " + requestArticle.getAccountId() + "에 해당하는 작성자가 존재하지 않습니다."));
         return ArticleServiceResponse.of(articleRepository.save(requestArticle.toEntity(account)));
     }
 
     public ArticleServiceResponse findById(Long id) {
         Article article = articleRepository.findById(id)
-                .orElseThrow(() -> new BusinessException(ErrorCode.ARTICLE_NOT_FOUND, "해당 게시글이 존재하지 않습니다."));
+                .orElseThrow(() -> new BusinessException(ErrorCode.ARTICLE_NOT_FOUND, "존재하지 않는 게시글 입니다."));
         return ArticleServiceResponse.of(article);
     }
 
@@ -45,7 +45,7 @@ public class ArticleService {
     @Transactional
     public ArticleServiceResponse updateArticle(Long id, ArticleServiceRequest serviceRequest) {
         Article article = articleRepository.findById(id)
-                .orElseThrow(() -> new BusinessException(ErrorCode.ARTICLE_NOT_FOUND, "해당 게시글이 존재하지 않습니다."));
+                .orElseThrow(() -> new BusinessException(ErrorCode.ARTICLE_NOT_FOUND, "수정할 게시글을 찾을 수 없습니다."));
 
         article.update(serviceRequest.getTitle(), serviceRequest.getContent());
         return ArticleServiceResponse.of(article);
@@ -54,7 +54,7 @@ public class ArticleService {
     @Transactional
     public ArticleServiceResponse deleteArticle(Long id) {
         Article article = articleRepository.findById(id)
-                .orElseThrow(() -> new BusinessException(ErrorCode.ARTICLE_NOT_FOUND, "해당 게시글이 존재하지 않습니다."));
+                .orElseThrow(() -> new BusinessException(ErrorCode.ARTICLE_NOT_FOUND, "삭제할 게시글을 찾을 수 없습니다."));
 
         articleRepository.delete(article);
         return ArticleServiceResponse.of(article);
@@ -63,7 +63,7 @@ public class ArticleService {
     @Transactional
     public ArticleServiceResponse likeArticle(Long id) {
         Article article = articleRepository.findById(id)
-                .orElseThrow(() -> new BusinessException(ErrorCode.ARTICLE_NOT_FOUND, "해당 게시글이 존재하지 않습니다."));
+                .orElseThrow(() -> new BusinessException(ErrorCode.ARTICLE_NOT_FOUND, "존재하지 않는 게시글 입니다"));
 
         article.increaseLikeCount();
         return ArticleServiceResponse.of(article);
@@ -72,11 +72,9 @@ public class ArticleService {
     @Transactional
     public ArticleServiceResponse dislikeArticle(Long id) {
         Article article = articleRepository.findById(id)
-                .orElseThrow(() -> new BusinessException(ErrorCode.ARTICLE_NOT_FOUND, "해당 게시글이 존재하지 않습니다."));
+                .orElseThrow(() -> new BusinessException(ErrorCode.ARTICLE_NOT_FOUND, "존재하지 않는 게시글 입니다"));
 
         article.decreaseLikeCount();
-
-
         return ArticleServiceResponse.of(article);
     }
 }

@@ -23,7 +23,7 @@ public class GlobalExceptionAdvice {
         log.error("[{}] Internal Server Error. message={}", errorId, e.getMessage(), e);
         return ResultResponse.fail(
                 String.format(
-                        "[%s] 서버 내부 오류가 발생했습니다", errorId)
+                        "[%s] 알 수 없는 에러가 발생했습니다", errorId)
         );
     }
 
@@ -34,7 +34,7 @@ public class GlobalExceptionAdvice {
         log.error("[{}] Business Exception. message={}", errorId, e.getMessage(), e);
         return ResultResponse.fail(
                 String.format(
-                        "[%s] 에러 코드: %s 알 수 없는 오류가 발생했습니다. 메시지: %s", errorId, e.getErrorCode(), e.getMessage())
+                        "[%s] 에러 코드: %s 에러 메시지 : %s", errorId, e.getErrorCode(), e.getMessage())
         );
     }
 

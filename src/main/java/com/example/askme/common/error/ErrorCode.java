@@ -6,15 +6,21 @@ import org.springframework.http.HttpStatus;
 @Getter
 public enum ErrorCode {
 
-    //계정
-    ACCOUNT_NOT_FOUND(HttpStatus.NOT_FOUND, "001", "해당 계정이 존재하지 않습니다."),
+    //계정(MEMBER)
+    ACCOUNT_NOT_FOUND(HttpStatus.NOT_FOUND, "M001", "해당 계정이 존재하지 않습니다."),
+    ALREADY_EXIST_USER_ID(HttpStatus.BAD_REQUEST, "M002", "이미 가입된 회원 입니다."),
 
-    //게시글
-    ARTICLE_NOT_FOUND(HttpStatus.NOT_FOUND, "002", "해당 게시글이 존재하지 않습니다."),
+    //게시글(POST)
+    ARTICLE_NOT_FOUND(HttpStatus.NOT_FOUND, "P001", "해당 게시글이 존재하지 않습니다."),
 
-    //인증
+    //인증(AUTHENTICATION)
     TOKEN_NOT_VALID(HttpStatus.UNAUTHORIZED, "A001", "토큰이 유효하지 않습니다."),
-    TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "A002", "토큰이 만료되었습니다.");
+    TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "A002", "토큰이 만료되었습니다."),
+    NOT_EXIST_AUTHORIZATION_HEADER(HttpStatus.UNAUTHORIZED, "A003", "Authorization Header 존재하지 않습니다."),
+    NOT_VALID_BEARER_GRANT_TYPE(HttpStatus.UNAUTHORIZED, "A004", "Bearer 타입이 아닙니다."),
+    NOT_EXIST_LOGIN_TYPE(HttpStatus.UNAUTHORIZED, "A005", "LoginType 이 존재하지 않습니다."),
+    NOT_EXIST_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, "A006", "해당 refresh token 은 존재하지 않습니다."),
+    EXPIRED_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, "A007", "해당 refresh token 은 만료 되었습니다.");
 
     private HttpStatus httpStatus;
     private String errorCode;

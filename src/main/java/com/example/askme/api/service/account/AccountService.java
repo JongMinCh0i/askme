@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -33,8 +34,11 @@ public class AccountService {
         if (LocalDateTime.now().isAfter(tokenExpireTime)) {
             throw new BusinessException(ErrorCode.EXPIRED_REFRESH_TOKEN);
         }
-
         return account;
+    }
+
+    public Optional<Account> findByUserNickname(String nickname) {
+        return accountRepository.findByNickname(nickname);
     }
 
 }

@@ -20,7 +20,7 @@ public class AccountController {
 
     @PostMapping("/signup")
     public ResultResponse<AccountServiceResponse> signUp(@Valid @RequestBody AccountCreateRequest createRequestAccount) {
-        return ResultResponse.success(accountService.signUp(createRequestAccount));
+        return ResultResponse.success(accountService.signUp(createRequestAccount.toServiceRequest()));
     }
 
 }

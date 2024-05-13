@@ -78,4 +78,8 @@ public class Account extends AuditingTimeEntity {
         return new Account("Oauth", "Oauth", Role.QUESTIONER, nickname, email, imageUrl, loginType, questionCount);
     }
 
+    public void updateRefreshToken(JwtTokenDto jwtTokenDto) {
+        this.refreshToken = jwtTokenDto.getRefreshToken();
+        this.tokenExpireTime = DateTimeUtils.convertToLocalDateTime(jwtTokenDto.getRefreshTokenExpiresTime());
+    }
 }

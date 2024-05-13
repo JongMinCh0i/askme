@@ -82,4 +82,8 @@ public class Account extends AuditingTimeEntity {
         this.refreshToken = jwtTokenDto.getRefreshToken();
         this.tokenExpireTime = DateTimeUtils.convertToLocalDateTime(jwtTokenDto.getRefreshTokenExpiresTime());
     }
+
+    public void expireRefreshToken(LocalDateTime now) {
+        this.tokenExpireTime = now;
+    }
 }

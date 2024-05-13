@@ -41,4 +41,8 @@ public class AccountService {
         return accountRepository.findByNickname(nickname);
     }
 
+    public Account findAccountByAccountId(Long memberId) {
+        return accountRepository.findById(memberId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.ACCOUNT_NOT_FOUND));
+    }
 }

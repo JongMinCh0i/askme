@@ -21,7 +21,8 @@ public enum ErrorCode {
     NOT_EXIST_LOGIN_TYPE(HttpStatus.UNAUTHORIZED, "A005", "LoginType 이 존재하지 않습니다."),
     NOT_EXIST_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, "A006", "해당 refresh token 은 존재하지 않습니다."),
     EXPIRED_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, "A007", "해당 refresh token 은 만료 되었습니다."),
-    NOT_ACCESS_TOKEN_TYPE (HttpStatus.UNAUTHORIZED, "A008", "Access Token 타입이 아닙니다.");
+    NOT_ACCESS_TOKEN_TYPE (HttpStatus.UNAUTHORIZED, "A008", "Access Token 타입이 아닙니다."),
+    QUESTIONER_NOT_AUTHORIZED(HttpStatus.UNAUTHORIZED, "A009","질문자가 아닙니다." );
 
     private HttpStatus httpStatus;
     private String errorCode;

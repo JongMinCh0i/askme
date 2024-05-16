@@ -27,14 +27,15 @@ public class KakaoLoginApiServiceImpl implements SocialLoginApiService {
                 CONTENT_TYPE, GrantType.BEARER.getType() + " " + accessToken);
 
         KakaoUserInfoResponseDto.KakaoAccount kakaoAccount = accountInfo.getKakaoAccount();
+        String email = kakaoAccount.getEmail();
         String nickname = kakaoAccount.getProfile().getNickname();
+        String imageUrl = kakaoAccount.getProfile().getThumbnailImageUrl();
 
         return AccountServiceRequest.builder()
-                .email(!StringUtils.hasText(nickname) ? kakaoAccount.getProfile().getNickname() : "unknown")
-                .nickname(kakaoAccount.getProfile().getNickname())
-                .imageUrl(kakaoAccount.getProfile().getThumbnailImageUrl())
+                .email(StringUtils.hasText(email) ? email : "unknownEmail")
+                .nickname(StringUtils.hasText(nickname) ? nickname : "unknownName")
+                .imageUrl(imageUrl)
                 .loginType(LoginType.KAKAO)
                 .build();
-
     }
 }

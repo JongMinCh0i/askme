@@ -3,6 +3,7 @@ package com.example.askme.api.service.login;
 import com.example.askme.api.controller.login.request.LoginCreateRequest;
 import com.example.askme.api.service.login.request.LoginServiceRequest;
 import com.example.askme.common.http.AskMeHttpClient;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
@@ -12,13 +13,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
+@RequiredArgsConstructor
 public class LoginService {
 
     private final AskMeHttpClient askMeHttpClient;
-
-    public LoginService(AskMeHttpClient askMeHttpClient) {
-        this.askMeHttpClient = askMeHttpClient;
-    }
 
     public String requestToken(String ContentType, LoginCreateRequest request) {
         LoginServiceRequest serviceRequest = request.toServiceRequest();

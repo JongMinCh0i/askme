@@ -1,24 +1,27 @@
 package com.example.askme.api.service.oauth.kakao;
 
 import com.example.askme.api.service.oauth.kakao.dto.KakaoUserInfoResponseDto;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 
-@Service
+@Component
 public class KakaoAccountInfoClient {
+
+    @Value("${kakao.api.url}")
+    private String kakaoApiUrl;
 
     public KakaoUserInfoResponseDto getAccountInfo(String contentType, String accessToken) {
 
-        String url = "https://kapi.kakao.com";
-
-        URI uri = UriComponentsBuilder.fromUriString(url)
+        URI uri = UriComponentsBuilder.fromUriString(kakaoApiUrl)
                 .path("/v2/user/me")
                 .encode()
                 .build()

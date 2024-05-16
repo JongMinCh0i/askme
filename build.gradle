@@ -41,6 +41,12 @@ dependencies {
     // Spring Boot 2.3 버전 이후로는 spring-boot-starter-validation 의존성을 추가해야 함
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+    // JWT Token 관련 라이브러리
+    implementation 'io.jsonwebtoken:jjwt:0.9.1'
+    implementation 'javax.xml.bind:jaxb-api:2.3.1'
+
     // JPA 쿼리 파라미터 로그를 확인하기 위한 라이브러리
     implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.0'
 

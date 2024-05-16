@@ -2,6 +2,7 @@ package com.example.askme.api.controller.account;
 
 import com.example.askme.api.controller.account.request.AccountCreateRequest;
 import com.example.askme.api.service.account.AccountService;
+import com.example.askme.api.service.account.request.AccountServiceRequest;
 import com.example.askme.api.service.account.response.AccountServiceResponse;
 import com.example.askme.common.constant.Role;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -53,7 +54,7 @@ public class AccountControllerTest {
                 .role(Role.QUESTIONER)
                 .build();
 
-        given(accountService.signUp(any(AccountCreateRequest.class))).willReturn(response);
+        given(accountService.signUp(any(AccountServiceRequest.class))).willReturn(response);
 
         mockMvc.perform(post("/api/v1/account/signup")
                         .contentType(MediaType.APPLICATION_JSON)

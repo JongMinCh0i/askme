@@ -26,7 +26,7 @@ public class OauthLoginService {
     private final TokenManager tokenManager;
 
     public OauthLoginResponse login(String accessToken, LoginType loginType) {
-        SocialLoginApiService socialLoginApiService = SocialLoginApiServiceFactory.getSocialLoginApiService(loginType);
+        SocialLoginApiService socialLoginApiService = SocialLoginApiServiceManager.getSocialLoginApiService(loginType);
         AccountServiceRequest accountServiceRequest = socialLoginApiService.getAccountInfo(accessToken);
         log.info("userInfo: {}", accountServiceRequest);
 

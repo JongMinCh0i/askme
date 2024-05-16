@@ -6,12 +6,12 @@ import org.springframework.stereotype.Service;
 import java.util.Map;
 
 @Service
-public class SocialLoginApiServiceFactory {
+public class SocialLoginApiServiceManager {
 
     private static Map<String, SocialLoginApiService> socialLoginApiServiceMap;
 
-    public SocialLoginApiServiceFactory(Map<String, SocialLoginApiService> socialLoginApiServiceMap) {
-        SocialLoginApiServiceFactory.socialLoginApiServiceMap = socialLoginApiServiceMap;
+    public SocialLoginApiServiceManager(Map<String, SocialLoginApiService> socialLoginApiServiceMap) {
+        SocialLoginApiServiceManager.socialLoginApiServiceMap = socialLoginApiServiceMap;
     }
 
     public static SocialLoginApiService getSocialLoginApiService(LoginType loginType) {

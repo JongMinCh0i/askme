@@ -1,10 +1,13 @@
 package com.example.askme.common.jwt;
 
+import com.example.askme.api.controller.token.dto.AccessTokenResponseDto;
+import com.example.askme.api.service.account.AccountService;
 import com.example.askme.common.constant.Role;
 import com.example.askme.common.error.ErrorCode;
 import com.example.askme.common.error.exception.AuthenticationException;
 import com.example.askme.common.jwt.constatnt.GrantType;
 import com.example.askme.common.jwt.constatnt.TokenType;
+import com.example.askme.dao.account.Account;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -22,6 +25,21 @@ public class TokenManager {
     private final String accessTokenExpirationTime;
     private final String refreshTokenExpirationTime;
     private final String tokenSecret;
+    private final AccountService accountService;
+
+    public AccessTokenResponseDto createAccessTokenByRefreshToken(String refreshToken) {
+        Account account = accountService.findByRefreshToken(refreshToken);
+
+        Date accessTokenExpireTime = this.createAccessTokenExpireTime();
+        String accessToken = this.createAccessToken(account.getId(), account.getRole(), accessTokenExpireTime);
+
+        return AccessTokenResponseDto.builder()
+                .grantType(GrantType.BEARER.getType())
+                .accessToken(accessToken)
+                .accessTokenExpireTime(accessTokenExpireTime)
+                .build();
+    }
+
 
     public JwtTokenDto createJwtTokenDto(Long memberId, Role role) {
         Date accessTokenExpireTime = createAccessTokenExpireTime();

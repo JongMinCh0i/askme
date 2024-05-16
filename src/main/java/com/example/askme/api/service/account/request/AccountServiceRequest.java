@@ -1,11 +1,11 @@
 package com.example.askme.api.service.account.request;
 
+import com.example.askme.common.constant.LoginType;
 import com.example.askme.dao.account.Account;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import static com.example.askme.common.constant.Role.*;
 
 @Getter
 @NoArgsConstructor
@@ -16,26 +16,27 @@ public class AccountServiceRequest {
     private String email;
     private String password;
     private String imageUrl;
+    private LoginType loginType;
     private long questionCount;
 
     @Builder
-    private AccountServiceRequest(String nickname, String userId, String email, String password, String imageUrl) {
+    public AccountServiceRequest(String nickname, String userId, String email, String password, String imageUrl, LoginType loginType, long questionCount) {
         this.nickname = nickname;
         this.userId = userId;
         this.email = email;
         this.password = password;
         this.imageUrl = imageUrl;
+        this.loginType = loginType;
+        this.questionCount = questionCount;
     }
 
     public Account toEntity() {
-        return Account.createUser(
-                userId,
-                password,
-                QUESTIONER,
-                nickname,
-                email,
-                imageUrl,
-                questionCount
+        return Account.createUserByOauth(
+                this.nickname,
+                "",
+                this.imageUrl,
+                this.loginType,
+                0
         );
     }
 }

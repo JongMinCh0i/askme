@@ -1,12 +1,17 @@
 package com.example.askme.api.service.account;
 
-import com.example.askme.api.controller.account.request.AccountCreateRequest;
+import com.example.askme.api.service.account.request.AccountServiceRequest;
 import com.example.askme.api.service.account.response.AccountServiceResponse;
+import com.example.askme.common.error.ErrorCode;
+import com.example.askme.common.error.exception.BusinessException;
 import com.example.askme.dao.account.Account;
 import com.example.askme.dao.account.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -16,9 +21,28 @@ public class AccountService {
     private final AccountRepository accountRepository;
 
     @Transactional
-    public AccountServiceResponse signUp(AccountCreateRequest createRequestAccount) {
-        Account account = accountRepository.save(createRequestAccount.toServiceRequest().toEntity());
+    public AccountServiceResponse signUp(AccountServiceRequest accountServiceRequest) {
+        Account account = accountRepository.save(accountServiceRequest.toEntity());
         return AccountServiceResponse.of(account);
     }
 
+    public Account findByRefreshToken(String refreshToken) {
+        Account account = accountRepository.findByRefreshToken(refreshToken)
+                .orElseThrow(() -> new BusinessException(ErrorCode.NOT_EXIST_REFRESH_TOKEN));
+
+        LocalDateTime tokenExpireTime = account.getTokenExpireTime();
+        if (LocalDateTime.now().isAfter(tokenExpireTime)) {
+            throw new BusinessException(ErrorCode.EXPIRED_REFRESH_TOKEN);
+        }
+        return account;
+    }
+
+    public Optional<Account> findByUserNickname(String nickname) {
+        return accountRepository.findByNickname(nickname);
+    }
+
+    public Account findAccountByAccountId(Long memberId) {
+        return accountRepository.findById(memberId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.ACCOUNT_NOT_FOUND));
+    }
 }

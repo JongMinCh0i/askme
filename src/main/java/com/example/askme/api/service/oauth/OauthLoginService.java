@@ -1,8 +1,7 @@
-package com.example.askme.api.service.account.oauth.kakao.service;
+package com.example.askme.api.service.oauth;
 
 import com.example.askme.api.controller.login.response.OauthLoginResponse;
 import com.example.askme.api.service.account.AccountService;
-import com.example.askme.api.service.account.oauth.service.SocialLoginApiService;
 import com.example.askme.api.service.account.request.AccountServiceRequest;
 import com.example.askme.common.constant.LoginType;
 import com.example.askme.common.jwt.JwtTokenDto;

@@ -1,7 +1,7 @@
-package com.example.askme.api.service.account.oauth.kakao.service;
+package com.example.askme.api.service.oauth.kakao;
 
-import com.example.askme.api.service.account.oauth.kakao.dto.KakaoUserInfoResponseDto;
-import com.example.askme.api.service.account.oauth.service.SocialLoginApiService;
+import com.example.askme.api.service.oauth.kakao.dto.KakaoUserInfoResponseDto;
+import com.example.askme.api.service.oauth.SocialLoginApiService;
 import com.example.askme.api.service.account.request.AccountServiceRequest;
 import com.example.askme.common.constant.LoginType;
 import com.example.askme.common.jwt.constatnt.GrantType;

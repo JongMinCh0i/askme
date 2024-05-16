@@ -1,6 +1,5 @@
-package com.example.askme.api.service.account.oauth.kakao.service;
+package com.example.askme.api.service.oauth;
 
-import com.example.askme.api.service.account.oauth.service.SocialLoginApiService;
 import com.example.askme.common.constant.LoginType;
 import org.springframework.stereotype.Service;
 

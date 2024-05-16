@@ -3,7 +3,7 @@ package com.example.askme.api.controller.login;
 import com.example.askme.api.controller.login.request.OauthLoginRequest;
 import com.example.askme.api.controller.login.response.OauthLoginResponse;
 import com.example.askme.api.controller.login.validator.OauthValidator;
-import com.example.askme.api.service.account.oauth.kakao.service.OauthLoginService;
+import com.example.askme.api.service.oauth.OauthLoginService;
 import com.example.askme.common.ResultResponse;
 import com.example.askme.common.constant.LoginType;
 import com.example.askme.common.util.AuthorizationHeaderUtils;

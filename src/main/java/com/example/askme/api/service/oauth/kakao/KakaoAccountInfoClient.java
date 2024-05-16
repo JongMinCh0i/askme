@@ -1,6 +1,6 @@
-package com.example.askme.api.service.account.oauth.kakao.service;
+package com.example.askme.api.service.oauth.kakao;
 
-import com.example.askme.api.service.account.oauth.kakao.dto.KakaoUserInfoResponseDto;
+import com.example.askme.api.service.oauth.kakao.dto.KakaoUserInfoResponseDto;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;

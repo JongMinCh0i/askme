@@ -1,4 +1,4 @@
-package com.example.askme.api.service.account.oauth.kakao.dto;
+package com.example.askme.api.service.oauth.kakao.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;

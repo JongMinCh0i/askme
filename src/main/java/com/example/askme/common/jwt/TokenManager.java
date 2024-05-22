@@ -14,17 +14,26 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 @Slf4j
 @RequiredArgsConstructor
+@Component
 public class TokenManager {
 
-    private final String accessTokenExpirationTime;
-    private final String refreshTokenExpirationTime;
-    private final String tokenSecret;
+    @Value("${token.access-token-expiration-time}")
+    private String accessTokenExpirationTime;
+
+    @Value("${token.refresh-token-expiration-time}")
+    private String refreshTokenExpirationTime;
+
+    @Value("${token.secret}")
+    private String tokenSecret;
+
     private final AccountService accountService;
 
     public AccessTokenResponseDto createAccessTokenByRefreshToken(String refreshToken) {
@@ -45,7 +54,7 @@ public class TokenManager {
         Date accessTokenExpireTime = createAccessTokenExpireTime();
         Date refreshTokenExpireTime = createRefreshTokenExpireTime();
 
-        String accessToken = createAccessToken(memberId, role ,accessTokenExpireTime);
+        String accessToken = createAccessToken(memberId, role, accessTokenExpireTime);
         String refreshToken = createRefreshToken(memberId, refreshTokenExpireTime);
 
         return JwtTokenDto.builder()

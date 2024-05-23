@@ -9,11 +9,11 @@ import com.example.askme.dao.account.AccountRepository;
 import com.example.askme.dao.article.Article;
 import com.example.askme.dao.article.ArticleRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -36,10 +36,9 @@ public class ArticleService {
         return ArticleServiceResponse.of(article);
     }
 
-    public List<ArticleServiceResponse> findAllArticles() {
-        return articleRepository.findAll().stream()
-                .map(ArticleServiceResponse::of)
-                .collect(Collectors.toList());
+    public Page<ArticleServiceResponse> findAllArticles(int page) {
+        PageRequest pageRequest = PageRequest.of(page, 20, Sort.by(Sort.Direction.ASC, "createdAt"));
+        return articleRepository.findAll(pageRequest).map(ArticleServiceResponse::of);
     }
 
     @Transactional

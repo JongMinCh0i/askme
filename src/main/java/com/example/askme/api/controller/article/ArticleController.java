@@ -6,9 +6,8 @@ import com.example.askme.api.service.article.response.ArticleServiceResponse;
 import com.example.askme.common.ResultResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/article")
@@ -29,9 +28,9 @@ public class ArticleController {
     }
 
     @GetMapping("/list")
-    public ResultResponse<List<ArticleServiceResponse>> getAllArticles() {
-        List<ArticleServiceResponse> responses = articleService.findAllArticles();
-        return ResultResponse.success(responses);
+    public ResultResponse<Page<ArticleServiceResponse>> getAllArticles(
+            @RequestParam(defaultValue = "0") int page) {
+        return ResultResponse.success(articleService.findAllArticles(page));
     }
 
     @PutMapping("/{id}")

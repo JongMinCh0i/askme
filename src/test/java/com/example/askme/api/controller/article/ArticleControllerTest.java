@@ -13,12 +13,17 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -127,40 +132,99 @@ class ArticleControllerTest {
     }
 
     @Test
-    @DisplayName("게시글 전체 조회 테스트")
-    void getAllArticles() throws Exception {
+    @DisplayName("게시글 전체 조회 시 페이지네이션 조회 여부 테스트")
+    void getAllArticlesWithPagination() throws Exception {
 
         //given
-        ArticleServiceResponse expectedResponse = ArticleServiceResponse.builder()
+        ArticleServiceResponse expectedResponse1 = ArticleServiceResponse.builder()
                 .articleId(1L)
                 .accountId(2L)
-                .title("Sample Title")
-                .content("Sample Content")
+                .title("Sample Title 1")
+                .content("Sample Content 1")
                 .state(SolveState.SOLVED)
                 .status(ContentStatus.PUBLISH)
-                .imageUrl("sample.jpg")
+                .imageUrl("sample1.jpg")
                 .viewCount(10)
                 .likeCount(5)
                 .build();
 
-        when(articleService.findAllArticles()).thenReturn(Collections.singletonList(expectedResponse));
+        ArticleServiceResponse expectedResponse2 = ArticleServiceResponse.builder()
+                .articleId(2L)
+                .accountId(3L)
+                .title("Sample Title 2")
+                .content("Sample Content 2")
+                .state(SolveState.SOLVED)
+                .status(ContentStatus.PUBLISH)
+                .imageUrl("sample2.jpg")
+                .viewCount(20)
+                .likeCount(15)
+                .build();
+
+        ArticleServiceResponse expectedResponse3 = ArticleServiceResponse.builder()
+                .articleId(3L)
+                .accountId(4L)
+                .title("Sample Title 3")
+                .content("Sample Content 3")
+                .state(SolveState.SOLVED)
+                .status(ContentStatus.PUBLISH)
+                .imageUrl("sample3.jpg")
+                .viewCount(30)
+                .likeCount(25)
+                .build();
+
+        // 1번 페이지
+        List<ArticleServiceResponse> firstPageArticles = Arrays.asList(expectedResponse1, expectedResponse2);
+        Page<ArticleServiceResponse> firstPage = new PageImpl<>(firstPageArticles, PageRequest.of(0, 2), 3);
+
+        // 2번 페이지
+        List<ArticleServiceResponse> secondPageArticles = Collections.singletonList(expectedResponse3);
+        Page<ArticleServiceResponse> secondPage = new PageImpl<>(secondPageArticles, PageRequest.of(1, 2), 3);
+
+        when(articleService.findAllArticles(0)).thenReturn(firstPage);
+        when(articleService.findAllArticles(1)).thenReturn(secondPage);
 
         //when & then
-        mockMvc.perform(get("/api/v1/article/list"))
+        mockMvc.perform(get("/api/v1/article/list")
+                        .param("page", "0"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data[0].articleId").value(expectedResponse.getArticleId()))
-                .andExpect(jsonPath("$.data[0].accountId").value(expectedResponse.getAccountId()))
-                .andExpect(jsonPath("$.data[0].title").value(expectedResponse.getTitle()))
-                .andExpect(jsonPath("$.data[0].content").value(expectedResponse.getContent()))
-                .andExpect(jsonPath("$.data[0].state").value(expectedResponse.getState().toString()))
-                .andExpect(jsonPath("$.data[0].status").value(expectedResponse.getStatus().toString()))
-                .andExpect(jsonPath("$.data[0].imageUrl").value(expectedResponse.getImageUrl()))
-                .andExpect(jsonPath("$.data[0].viewCount").value(expectedResponse.getViewCount()))
-                .andExpect(jsonPath("$.data[0].likeCount").value(expectedResponse.getLikeCount()));
+                .andExpect(jsonPath("$.data.content[0].articleId").value(expectedResponse1.getArticleId()))
+                .andExpect(jsonPath("$.data.content[0].accountId").value(expectedResponse1.getAccountId()))
+                .andExpect(jsonPath("$.data.content[0].title").value(expectedResponse1.getTitle()))
+                .andExpect(jsonPath("$.data.content[0].content").value(expectedResponse1.getContent()))
+                .andExpect(jsonPath("$.data.content[0].state").value(expectedResponse1.getState().toString()))
+                .andExpect(jsonPath("$.data.content[0].status").value(expectedResponse1.getStatus().toString()))
+                .andExpect(jsonPath("$.data.content[0].imageUrl").value(expectedResponse1.getImageUrl()))
+                .andExpect(jsonPath("$.data.content[0].viewCount").value(expectedResponse1.getViewCount()))
+                .andExpect(jsonPath("$.data.content[0].likeCount").value(expectedResponse1.getLikeCount()))
+                .andExpect(jsonPath("$.data.content[1].articleId").value(expectedResponse2.getArticleId()))
+                .andExpect(jsonPath("$.data.content[1].accountId").value(expectedResponse2.getAccountId()))
+                .andExpect(jsonPath("$.data.content[1].title").value(expectedResponse2.getTitle()))
+                .andExpect(jsonPath("$.data.content[1].content").value(expectedResponse2.getContent()))
+                .andExpect(jsonPath("$.data.content[1].state").value(expectedResponse2.getState().toString()))
+                .andExpect(jsonPath("$.data.content[1].status").value(expectedResponse2.getStatus().toString()))
+                .andExpect(jsonPath("$.data.content[1].imageUrl").value(expectedResponse2.getImageUrl()))
+                .andExpect(jsonPath("$.data.content[1].viewCount").value(expectedResponse2.getViewCount()))
+                .andExpect(jsonPath("$.data.content[1].likeCount").value(expectedResponse2.getLikeCount()));
 
-        verify(articleService, times(1)).findAllArticles();
+        mockMvc.perform(get("/api/v1/article/list")
+                        .param("page", "1"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.data.content[0].articleId").value(expectedResponse3.getArticleId()))
+                .andExpect(jsonPath("$.data.content[0].accountId").value(expectedResponse3.getAccountId()))
+                .andExpect(jsonPath("$.data.content[0].title").value(expectedResponse3.getTitle()))
+                .andExpect(jsonPath("$.data.content[0].content").value(expectedResponse3.getContent()))
+                .andExpect(jsonPath("$.data.content[0].state").value(expectedResponse3.getState().toString()))
+                .andExpect(jsonPath("$.data.content[0].status").value(expectedResponse3.getStatus().toString()))
+                .andExpect(jsonPath("$.data.content[0].imageUrl").value(expectedResponse3.getImageUrl()))
+                .andExpect(jsonPath("$.data.content[0].viewCount").value(expectedResponse3.getViewCount()))
+                .andExpect(jsonPath("$.data.content[0].likeCount").value(expectedResponse3.getLikeCount()));
+
+        verify(articleService, times(1)).findAllArticles(0);
+        verify(articleService, times(1)).findAllArticles(1);
     }
 
     @Test

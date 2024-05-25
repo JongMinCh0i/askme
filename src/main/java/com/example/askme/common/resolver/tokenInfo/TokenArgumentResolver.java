@@ -2,8 +2,6 @@ package com.example.askme.common.resolver.tokenInfo;
 
 import com.example.askme.common.util.AuthorizationHeaderUtils;
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -12,15 +10,13 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 @Component
-@Slf4j
-@RequiredArgsConstructor
 public class TokenArgumentResolver implements HandlerMethodArgumentResolver {
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
         boolean hasParameterAnnotation = parameter.hasParameterAnnotation(TokenParser.class);
-        boolean hasMemberInfoDto = TokenDto.class.isAssignableFrom(parameter.getParameterType());
-        return hasParameterAnnotation && hasMemberInfoDto;
+        boolean hasTokenInfoDto = TokenDto.class.isAssignableFrom(parameter.getParameterType());
+        return hasParameterAnnotation && hasTokenInfoDto;
     }
 
     @Override

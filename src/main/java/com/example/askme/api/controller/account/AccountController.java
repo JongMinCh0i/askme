@@ -6,7 +6,8 @@ import com.example.askme.api.service.account.AccountService;
 import com.example.askme.api.service.account.response.AccountServiceResponse;
 import com.example.askme.common.ResultResponse;
 import com.example.askme.common.jwt.TokenManager;
-import io.jsonwebtoken.Claims;
+import com.example.askme.common.resolver.accountInfo.AccountDto;
+import com.example.askme.common.resolver.accountInfo.AccountInfo;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -27,11 +28,10 @@ public class AccountController {
 
     @GetMapping("/info")
     public ResultResponse<AccountServiceResponse> getAccountInfo(
-            @RequestHeader("Authorization") String authorizationHeader
-    ) {
-        String accessToken = authorizationHeader.split(" ")[1];
-        Claims tokenClaims = tokenManager.getTokenClaims(accessToken);
-        Long memberId = Long.valueOf((Integer) tokenClaims.get("memberId"));
-        return ResultResponse.success(accountInfoService.getAccountInfo(memberId));
+            @AccountInfo AccountDto accountDto) {
+        Long memberId = accountDto.getAccountId();
+        AccountServiceResponse accountInfo = accountInfoService.getAccountInfo(memberId);
+        return ResultResponse.success(accountInfo);
     }
 }
+

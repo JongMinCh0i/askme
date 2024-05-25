@@ -1,4 +1,4 @@
-package com.example.askme.common.resolver.memberInfo;
+package com.example.askme.common.resolver.tokenInfo;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

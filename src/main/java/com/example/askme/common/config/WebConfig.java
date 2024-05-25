@@ -2,7 +2,7 @@ package com.example.askme.common.config;
 
 import com.example.askme.common.interceptor.AuthenticationInterceptor;
 import com.example.askme.common.interceptor.QuestionerAuthorizationInterceptor;
-import com.example.askme.common.resolver.memberInfo.TokenArgumentResolver;
+import com.example.askme.common.resolver.tokenInfo.TokenArgumentResolver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;

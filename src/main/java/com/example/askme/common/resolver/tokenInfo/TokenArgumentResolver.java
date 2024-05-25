@@ -1,4 +1,4 @@
-package com.example.askme.common.resolver.memberInfo;
+package com.example.askme.common.resolver.tokenInfo;
 
 import com.example.askme.common.util.AuthorizationHeaderUtils;
 import jakarta.servlet.http.HttpServletRequest;

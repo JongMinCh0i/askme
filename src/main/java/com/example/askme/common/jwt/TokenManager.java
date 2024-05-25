@@ -81,6 +81,7 @@ public class TokenManager {
                 .setIssuedAt(new Date())
                 .setExpiration(expireTime)
                 .claim("memberId", memberId)
+                .claim("role", role.name())
                 .signWith(SignatureAlgorithm.HS512, tokenSecret.getBytes(StandardCharsets.UTF_8))
                 .setHeaderParam("typ", "JWT")
                 .compact();

@@ -6,8 +6,8 @@ import com.example.askme.api.controller.login.validator.OauthValidator;
 import com.example.askme.api.service.oauth.OauthLoginService;
 import com.example.askme.common.ResultResponse;
 import com.example.askme.common.constant.LoginType;
-import com.example.askme.common.util.AuthorizationHeaderUtils;
-import jakarta.servlet.http.HttpServletRequest;
+import com.example.askme.common.resolver.memberInfo.TokenDto;
+import com.example.askme.common.resolver.memberInfo.TokenParser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -22,21 +22,9 @@ public class OAuthController {
     private final OauthLoginService oauthService;
 
     @PostMapping("/login")
-    public ResultResponse<OauthLoginResponse> login(
-            @RequestBody OauthLoginRequest oauthLoginRequest,
-            HttpServletRequest httpServletRequest) {
-
-        log.info(oauthLoginRequest.getLoginType());
-
-        String authorizationHeader = httpServletRequest.getHeader("Authorization");
-        AuthorizationHeaderUtils.validateAuthorizationHeader(authorizationHeader);
+    public ResultResponse<OauthLoginResponse> login(@RequestBody OauthLoginRequest oauthLoginRequest, @TokenParser TokenDto tokenDto) {
         oauthValidator.validateMemberType(oauthLoginRequest.getLoginType());
-
-        String accessToken = authorizationHeader.split(" ")[1];
-
-        OauthLoginResponse jwtTokenResponse = oauthService
-                .login(accessToken, LoginType.valueOf(oauthLoginRequest.getLoginType()));
-
+        OauthLoginResponse jwtTokenResponse = oauthService.login(tokenDto.getToken(), LoginType.valueOf(oauthLoginRequest.getLoginType()));
         return ResultResponse.success(jwtTokenResponse);
     }
 }

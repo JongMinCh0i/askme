@@ -35,7 +35,7 @@ public class OauthLoginService {
         JwtTokenDto jwtTokenDto;
 
         if (accountOptional.isEmpty()) {
-            Account newAccount = accountServiceRequest.toEntity();
+            Account newAccount = accountRepository.save(accountServiceRequest.toEntity());
             jwtTokenDto = tokenManager.createJwtTokenDto(newAccount.getId(), newAccount.getRole());
             newAccount.updateRefreshToken(jwtTokenDto);
             accountRepository.save(newAccount);

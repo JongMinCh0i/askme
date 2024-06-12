@@ -10,6 +10,8 @@ import com.example.askme.dao.article.Article;
 import com.example.askme.dao.article.ArticleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -74,6 +76,7 @@ public class ArticleService {
                 .orElseThrow(() -> new BusinessException(ErrorCode.ARTICLE_NOT_FOUND, "삭제할 게시글을 찾을 수 없습니다."));
 
         articleRepository.delete(article);
+        redisTemplate.delete(POST_VIEW_COUNT_KEY + id);
         return ArticleServiceResponse.of(article);
     }
 

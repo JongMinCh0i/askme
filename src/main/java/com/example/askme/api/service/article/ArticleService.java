@@ -10,8 +10,6 @@ import com.example.askme.dao.article.Article;
 import com.example.askme.dao.article.ArticleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -50,7 +48,7 @@ public class ArticleService {
     }
 
     public Page<ArticleServiceResponse> findAllArticles(int page) {
-        PageRequest pageRequest = PageRequest.of(page, 20, Sort.by(Sort.Direction.ASC, "createdAt"));
+        PageRequest pageRequest = PageRequest.of(page, 20, Sort.by(Sort.Direction.DESC, "createdAt"));
         Page<Article> articlesPage = articleRepository.findAll(pageRequest);
 
         List<ArticleServiceResponse> articleServiceResponses = articlesPage.stream().map(article -> {

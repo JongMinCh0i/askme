@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 import static com.example.askme.common.error.ErrorCode.*;
 
@@ -35,53 +36,67 @@ public class FileService {
     @Value("${cloud.aws.s3.bucketName}")
     private String bucketName;
 
-    public CompletableFuture<URL> upload(MultipartFile image) throws IOException {
+    public String upload(MultipartFile image) {
         if (image.isEmpty() || Objects.requireNonNull(image.getOriginalFilename()).isBlank())
             throw new BusinessException(BAD_REQUEST_IMAGE);
+
         validateExtension(image.getOriginalFilename());
-        return this.uploadImageToS3(image);
+
+        try {
+            URL uploadedUrl = uploadImageToS3(image).get();
+            return uploadedUrl.toString();
+        } catch (ExecutionException | InterruptedException | IOException e) {
+            log.error("S3 업로드에 실패했습니다.", e);
+            throw new BusinessException(UPLOAD_FAILED, e);
+        }
     }
 
     @Async
     public CompletableFuture<URL> uploadImageToS3(MultipartFile image) throws IOException {
+
+        log.info("이미지 업로드 시작");
         String originalFilename = image.getOriginalFilename();
-        String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
+        String extension = getFileExtension(originalFilename);
+        String s3FileName = UUID.randomUUID().toString().substring(0, 10) + "_" + originalFilename;
 
-        String s3FileName = UUID.randomUUID().toString().substring(0, 10) + originalFilename;
+        try (InputStream inputStream = image.getInputStream();
+             ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(IOUtils.toByteArray(inputStream))) {
 
-        InputStream inputStream = image.getInputStream();
-        byte[] bytes = IOUtils.toByteArray(inputStream);
+            byte[] bytes = IOUtils.toByteArray(inputStream);
 
-        ObjectMetadata metadata = new ObjectMetadata();
-        metadata.setContentType("image/" + extension);
-        metadata.setContentLength(bytes.length);
+            ObjectMetadata metadata = new ObjectMetadata();
+            metadata.setContentType("image/" + extension);
+            metadata.setContentLength(bytes.length);
 
-        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
-
-        try {
             PutObjectRequest putObjectRequest =
                     new PutObjectRequest(bucketName, s3FileName, byteArrayInputStream, metadata)
                             .withCannedAcl(CannedAccessControlList.PublicRead);
             amazonS3Client.putObject(putObjectRequest);
+
+            return CompletableFuture.completedFuture(amazonS3Client.getUrl(bucketName, s3FileName));
         } catch (Exception e) {
-            throw new BusinessException(INVALID_AWS_CONNECTION);
-        } finally {
-            byteArrayInputStream.close();
-            inputStream.close();
+            log.error("S3 업로드 중 예외 발생", e);
+            throw new BusinessException(INVALID_AWS_CONNECTION, e);
         }
-        return CompletableFuture.completedFuture(amazonS3Client.getUrl(bucketName, s3FileName));
     }
 
     private void validateExtension(String filename) {
-        String[] parts = filename.toLowerCase().split("\\.");
+        String extension = getFileExtension(filename).toLowerCase();
+        List<String> allowedExtensions = Arrays.asList("jpg", "jpeg", "gif", "png");
 
-        if (parts.length > 1) {
-            String extension = parts[parts.length - 1];
-            List<String> allowedExtensions = Arrays.asList("jpg", "jpeg", "gif", "png");
-
-            if (!allowedExtensions.contains(extension)) {
-                throw new BusinessException(INVALID_FILE_EXTENSION);
-            }
+        if (!allowedExtensions.contains(extension)) {
+            throw new BusinessException(INVALID_FILE_EXTENSION);
         }
     }
+
+    private String getFileExtension(String filename) {
+        int index = filename.lastIndexOf(".");
+
+        if(index == -1 || index == filename.length() - 1) {
+            throw new BusinessException(INVALID_FILE_EXTENSION);
+        }
+
+        return filename.substring(index + 1);
+    }
+
 }

@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @Slf4j
@@ -16,8 +18,7 @@ public class FileController {
     private final FileService fileService;
 
     @PostMapping("/upload")
-    public String uploadFile(@RequestParam("file") MultipartFile file) {
-        log.info("file: {}", file.getOriginalFilename());
-        return fileService.upload(file);
+    public List<String> uploadFile(@RequestParam("files") List<MultipartFile> files) {
+        return fileService.upload(files);
     }
 }

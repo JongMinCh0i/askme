@@ -11,13 +11,11 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
-import static com.example.askme.common.error.ErrorCode.*;
+import static com.example.askme.common.error.ErrorCode.BAD_REQUEST_IMAGE;
+import static com.example.askme.common.error.ErrorCode.INVALID_FILE_EXTENSION;
 
 @Slf4j
 @Service
@@ -26,23 +24,30 @@ public class FileService {
 
     private final FileStorageService fileStorageService;
 
-    public String upload(MultipartFile image) {
-        if (image.isEmpty() || Objects.requireNonNull(image.getOriginalFilename()).isBlank())
-            throw new BusinessException(BAD_REQUEST_IMAGE);
-        validateExtension(image.getOriginalFilename());
+    public List<String> upload(List<MultipartFile> images) {
 
-        try {
-            return String.valueOf(this.uploadImageToS3(image));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        List<String> uploadedUrls = new ArrayList<>();
+
+        for (MultipartFile image : images) {
+            if (image.isEmpty() || Objects.requireNonNull(image.getOriginalFilename()).isBlank())
+                throw new BusinessException(BAD_REQUEST_IMAGE);
+            validateExtension(image.getOriginalFilename());
+
+            try {
+                uploadedUrls.add(this.uploadImageToS3(image).join().toString());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
+
+        return uploadedUrls;
     }
 
     @Async
     public CompletableFuture<URL> uploadImageToS3(MultipartFile image) throws IOException {
         log.info("이미지 업로드 시작");
         String originalFilename = image.getOriginalFilename();
-        String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
+        String extension = originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
 
         String s3FileName = UUID.randomUUID().toString().substring(0, 10) + originalFilename;
 

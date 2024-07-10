@@ -12,13 +12,6 @@
 | DevOps | AWS(EC2, RDS, S3, CodeDeploy, GithubAction) |
 | Tools | IntelliJ, Gradle, Maven |
 
-## 🗺️ 서버 구조
-
----
-
-## 💾 DB 구조
-
----
 
 ## 🗂️ 패키지 구조
 

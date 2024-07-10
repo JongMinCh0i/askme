@@ -43,15 +43,12 @@ public class Article extends AuditingTimeEntity {
     @Setter
     private String imageUrl;
 
+    @Setter
     @ColumnDefault("0")
     private long viewCount = 0;
 
     @ColumnDefault("0")
     private long likeCount = 0;
-
-    public void increaseViewCount() {
-        this.viewCount++;
-    }
 
     public void increaseLikeCount() {this.likeCount++; }
 

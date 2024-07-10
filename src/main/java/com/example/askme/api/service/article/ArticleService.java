@@ -9,6 +9,12 @@ import com.example.askme.dao.account.AccountRepository;
 import com.example.askme.dao.article.Article;
 import com.example.askme.dao.article.ArticleRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,12 +22,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class ArticleService {
 
     private final ArticleRepository articleRepository;
     private final AccountRepository accountRepository;
+    private final RedisTemplate<String, String> redisTemplate;
+    private static final String POST_VIEW_COUNT_KEY = "post:view:count:";
 
     @Transactional
     public ArticleServiceResponse saveArticle(ArticleServiceRequest requestArticle) {
@@ -33,13 +42,21 @@ public class ArticleService {
     public ArticleServiceResponse findById(Long id) {
         Article article = articleRepository.findById(id)
                 .orElseThrow(() -> new BusinessException(ErrorCode.ARTICLE_NOT_FOUND, "존재하지 않는 게시글 입니다."));
+        increaseViewCount(id);
+        article.setViewCount(getViewCount(id));
         return ArticleServiceResponse.of(article);
     }
 
-    public List<ArticleServiceResponse> findAllArticles() {
-        return articleRepository.findAll().stream()
-                .map(ArticleServiceResponse::of)
-                .collect(Collectors.toList());
+    public Page<ArticleServiceResponse> findAllArticles(int page) {
+        PageRequest pageRequest = PageRequest.of(page, 20, Sort.by(Sort.Direction.DESC, "createdAt"));
+        Page<Article> articlesPage = articleRepository.findAll(pageRequest);
+
+        List<ArticleServiceResponse> articleServiceResponses = articlesPage.stream().map(article -> {
+            article.setViewCount(getViewCount(article.getId()));
+            return ArticleServiceResponse.of(article);
+        }).collect(Collectors.toList());
+
+        return new PageImpl<>(articleServiceResponses, pageRequest, articlesPage.getTotalElements());
     }
 
     @Transactional
@@ -57,6 +74,7 @@ public class ArticleService {
                 .orElseThrow(() -> new BusinessException(ErrorCode.ARTICLE_NOT_FOUND, "삭제할 게시글을 찾을 수 없습니다."));
 
         articleRepository.delete(article);
+        redisTemplate.delete(POST_VIEW_COUNT_KEY + id);
         return ArticleServiceResponse.of(article);
     }
 
@@ -76,6 +94,26 @@ public class ArticleService {
 
         article.decreaseLikeCount();
         return ArticleServiceResponse.of(article);
+    }
+
+    private void increaseViewCount(Long id) {
+        String key = POST_VIEW_COUNT_KEY + id;
+        redisTemplate.opsForValue().increment(key);
+    }
+
+    public Long getViewCount(Long postId) {
+        String key = POST_VIEW_COUNT_KEY + postId;
+        String countStr = redisTemplate.opsForValue().get(key);
+
+        if (countStr == null) {
+            Article article = articleRepository.findById(postId)
+                    .orElseThrow(() -> new BusinessException(ErrorCode.ARTICLE_NOT_FOUND, "존재하지 않는 게시글 입니다."));
+            Long viewCount = article.getViewCount();
+            redisTemplate.opsForValue().set(key, viewCount.toString());
+            return viewCount;
+        }
+
+        return Long.parseLong(countStr);
     }
 }
 

@@ -67,8 +67,7 @@
 **Parameter Resolver를 통한 컨트롤러 메서드 간소화 및 토큰 처리 개선 [[적용 코드](https://github.com/JongMinCh0i/askme/blob/38eb57a3dc4d7a84328af1f3722217143287b4d1/src/main/java/com/example/askme/common/resolver/accountInfo/AccountArgumentResolver.java#L19), [적용코드](https://github.com/JongMinCh0i/askme/blob/38eb57a3dc4d7a84328af1f3722217143287b4d1/src/main/java/com/example/askme/common/resolver/tokenInfo/TokenArgumentResolver.java#L13)]**
 
 - `HandlerMethodArgumentResolver`를 사용하여 컨트롤러 메서드에서 반복되는 토큰 검증 및 파싱 로직을 분리하여 코드의 간결성과 재사용성을 높임.
-- `AccountArgumentResolver`를 통해 `@AccountInfo` 애노테이션이 붙은 메서드 파라미터에 대해 토큰에서 사용자 정보를 추출하여 `AccountDto` 객체를 자동으로 주입함.
-- `TokenArgumentResolver`를 통해 `@TokenParser` 애노테이션이 붙은 메서드 파라미터에 대해 토큰 문자열을 `TokenDto` 객체로 자동으로 주입함.
+- `AccountArgumentResolver`를 통해 `@AccountInfo` , `@TokenParser` 애노테이션이 붙은 메서드 파라미터에 대해 토큰에서 사용자 정보를 추출하여 `AccountDto` , `TokenDto`  객체를 자동으로 주입함.
 - Authorization 헤더 유효성 검사를 `AuthorizationHeaderUtils`를 사용하여 일관되게 처리함으로써 코드의 중복을 제거하고 유지보수성을 향상시킴.
 
 **공통 응답 클래스 개선[[적용 코드](https://github.com/JongMinCh0i/askme/blob/38eb57a3dc4d7a84328af1f3722217143287b4d1/src/main/java/com/example/askme/common/ResultResponse.java#L3)]**
@@ -79,8 +78,6 @@
 
 **다중 이미지 업로드 및 비동기 처리로 응답 속도 개선 [[적용 코드](https://github.com/JongMinCh0i/askme/blob/38eb57a3dc4d7a84328af1f3722217143287b4d1/src/main/java/com/example/askme/api/service/file/FileService.java#L46)]**
 
-- 다중 이미지 업로드 기능을 구현하여 여러 이미지를 한 번에 업로드할 수 있도록 하여 사용자 편의성을 증대함.
 - `@Async`를 사용하여 비동기 처리로 이미지 업로드를 수행함으로써 서버의 응답 속도를 개선하고, 사용자가 빠른 피드백을 받을 수 있도록 함.
 - `AsyncConfig`를 통해 비동기 처리를 위한 스레드 풀 설정을 구성하여 효율적인 리소스 관리를 가능하게 함.
 - 이미지 파일의 확장자 유효성 검사를 통해 잘못된 파일 업로드를 사전에 방지하고, AWS S3에 안전하게 업로드되도록 함.
-- 업로드된 이미지의 URL 리스트를 반환하여 클라이언트가 업로드 결과를 쉽게 확인할 수 있도록 함.

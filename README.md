@@ -8,9 +8,9 @@
 
 | 분류 | 기술명 |
 | --- | --- |
-| BackEnd | Java, Spring (Boot, Security, JPA), QueryDsl, Junit, Mockito, Redis, MySql |
-| DevOps | AWS(EC2, RDS, S3, CodeDeploy, GithubAction) |
-| Tools | IntelliJ, Gradle, Maven |
+| BackEnd | Java, Spring (Boot, Security, JPA), Junit, Mockito, Redis, MySql |
+| DevOps | AWS(EC2, RDS, S3, GithubAction) |
+| Tools | IntelliJ, Gradle|
 
 
 ## 🗂️ 패키지 구조

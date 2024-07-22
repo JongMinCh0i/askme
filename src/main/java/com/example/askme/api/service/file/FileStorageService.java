@@ -1,11 +1,11 @@
 package com.example.askme.api.service.file;
 
-import com.amazonaws.services.s3.model.ObjectMetadata;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
+import java.util.concurrent.CompletableFuture;
 
 public interface FileStorageService {
-    URL uploadFile(String fileName, InputStream inputStream, ObjectMetadata metadata) throws IOException;
+    CompletableFuture<URL> uploadFile(MultipartFile image) throws IOException;
 }

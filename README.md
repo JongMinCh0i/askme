@@ -37,6 +37,15 @@
             - ResultResponse
         - dao
 
+
+## ❗ 트러블 슈팅 경험 [https://github.com/JongMinCh0i/askme/pull/31]
+
+- 여러 건의 이미지를 업로드할 때 단일 쓰레드인 [nio-8080-exec-2] 에서 처리되어 성능 문제가 발생하는 문제를 식별 
+- @async 메서드를 다른 메서드 내부에서 호출, CompletableFuture의 join()을 사용함으로써 동기화 문제가 발생하는 문제를 해결 하고 로그를 통해 확인함
+
+
+
+
 ## 🔥 기술적 개선 및 고려
 
 ---

@@ -38,8 +38,10 @@
         - dao
 
 
-## ❗ 트러블 슈팅 경험 [https://github.com/JongMinCh0i/askme/pull/31]
+## ❗ 트러블 슈팅 경험 
+---
 
+**비동기 이미지 업로드 처리 개선 [[이슈 및 PR](https://github.com/JongMinCh0i/askme/pull/31)]**
 - 여러 건의 이미지를 업로드할 때 단일 쓰레드인 [nio-8080-exec-2] 에서 처리되어 성능 문제가 발생하는 문제를 식별 
 - @async 메서드를 다른 메서드 내부에서 호출, CompletableFuture의 join()을 사용함으로써 동기화 문제가 발생하는 문제를 해결 하고 로그를 통해 확인함
 
@@ -47,7 +49,6 @@
 
 
 ## 🔥 기술적 개선 및 고려
-
 ---
 
 **게시글 조회 수 로직 개선[[적용코드](https://github.com/JongMinCh0i/askme/blob/38eb57a3dc4d7a84328af1f3722217143287b4d1/src/main/java/com/example/askme/api/service/article/ViewCountSyncScheduler.java#L30)/[설정코드](https://github.com/JongMinCh0i/askme/blob/38eb57a3dc4d7a84328af1f3722217143287b4d1/src/main/java/com/example/askme/common/config/RedisConfig.java#L19)]**

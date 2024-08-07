@@ -92,7 +92,7 @@
 - 응답의 일관성과 가독성을 높여 클라이언트와의 통신에서 발생할 수 있는 혼란을 줄이고, 코드의 재사용성을 향상시킴.
 <br/>
 
-**다중 이미지 업로드 및 비동기 처리로 응답 속도 개선 [[적용 코드](https://github.com/JongMinCh0i/askme/blob/38eb57a3dc4d7a84328af1f3722217143287b4d1/src/main/java/com/example/askme/api/service/file/FileService.java#L46)]**
+**다중 이미지 업로드 및 비동기 처리로 응답 속도 개선 [[적용 코드](https://github.com/JongMinCh0i/askme/blob/3e03d586e739d22dc3ea9ae4727f551d3053976a/src/main/java/com/example/askme/api/service/file/S3FileStorageService.java#L37)]**
 
 - `@Async`를 사용하여 비동기 처리로 이미지 업로드를 수행함으로써 서버의 응답 속도를 개선하고, 사용자가 빠른 피드백을 받을 수 있도록 함.
 - `AsyncConfig`를 통해 비동기 처리를 위한 스레드 풀 설정을 구성하여 효율적인 리소스 관리를 가능하게 함.

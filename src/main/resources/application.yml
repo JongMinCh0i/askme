@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:h2:tcp://localhost/~/askme
-    username: sa
-    password: 1q2w3e4r
+    url: ${H2_DB_URL}
+    username: ${H2_DB_USER}
+    password: ${H2_DB_PASSWORD}
     driver-class-name: org.h2.Driver
 
   jpa:
@@ -12,8 +12,37 @@ spring:
       hibernate:
         format_sql: true
 
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
+
 logging:
   level:
     org.hibernate:
-    sql: debug
-    type : trace
+      sql: debug
+      type: trace
+
+kakao:
+  client:
+    id: ${KAKAO_CLIENT_KEY}
+    secret: ${KAKAO_SECRET_KEY}
+  api:
+    url: https://kapi.kakao.com
+
+token:
+  secret: ${TOKEN_SECRET_KEY}
+  access-token-expiration-time: ${ACCESS_TOKEN_EXPIRATION_TIME}
+  refresh-token-expiration-time: ${REFRESH_TOKEN_EXPIRATION_TIME}
+
+cloud:
+  aws:
+    credentials:
+      accessKey: ${AWS_ACCESS_KEY}
+      secretKey: ${AWS_SECRET_KEY}
+    s3:
+      bucketName: ${AWS_S3_BUCKET_NAME}
+    region:
+      static: ${AWS_REGION}
+    stack:
+      auto: false

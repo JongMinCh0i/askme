@@ -5,7 +5,6 @@ import com.example.askme.api.service.account.AccountInfoService;
 import com.example.askme.api.service.account.AccountService;
 import com.example.askme.api.service.account.response.AccountServiceResponse;
 import com.example.askme.common.ResultResponse;
-import com.example.askme.common.jwt.TokenManager;
 import com.example.askme.common.resolver.accountInfo.AccountDto;
 import com.example.askme.common.resolver.accountInfo.AccountInfo;
 import jakarta.validation.Valid;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class AccountController {
 
-    private final TokenManager tokenManager;
     private final AccountInfoService accountInfoService;
     private final AccountService accountService;
 

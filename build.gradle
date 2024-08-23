@@ -56,8 +56,8 @@ dependencies {
     // Spring Cloud AWS
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 
-    // Spring Boot Async
-    implementation 'org.springframework.boot:spring-boot-starter-async'
+    // Mysql
+    implementation 'com.mysql:mysql-connector-j'
 
     // Swagger
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'

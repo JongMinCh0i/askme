@@ -5,10 +5,15 @@ import com.example.askme.api.service.article.ArticleService;
 import com.example.askme.api.service.article.response.ArticleServiceResponse;
 import com.example.askme.common.constant.ContentStatus;
 import com.example.askme.common.constant.SolveState;
+import com.example.askme.common.interceptor.AuthenticationInterceptor;
+import com.example.askme.common.interceptor.QuestionerAuthorizationInterceptor;
+import com.example.askme.common.jwt.TokenManager;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -20,6 +25,8 @@ import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -40,8 +47,31 @@ class ArticleControllerTest {
     @MockBean
     private ArticleService articleService;
 
+    @MockBean
+    private TokenManager tokenManager;
+
     @Autowired
     private ObjectMapper objectMapper;
+
+    @MockBean
+    private AuthenticationInterceptor authenticationInterceptor;
+
+    @MockBean
+    private QuestionerAuthorizationInterceptor questionerAuthorizationInterceptor;
+
+    @Autowired
+    private WebApplicationContext context;
+
+    @BeforeEach
+    void setUp() throws Exception {
+        Mockito.when(authenticationInterceptor.preHandle(Mockito.any(), Mockito.any(), Mockito.any()))
+                .thenReturn(true);
+        Mockito.when(questionerAuthorizationInterceptor.preHandle(Mockito.any(), Mockito.any(), Mockito.any()))
+                .thenReturn(true);
+
+        mockMvc = MockMvcBuilders.webAppContextSetup(context)
+                .build();
+    }
 
     @Test
     @DisplayName("게시글 생성 테스트")

@@ -9,7 +9,7 @@
 | 분류 | 기술명 |
 | --- | --- |
 | BackEnd | Java, Spring (Boot, Security, JPA), Junit, Mockito, Redis, MySql |
-| DevOps | AWS(EC2, RDS, S3, GithubAction) |
+| DevOps | AWS(EC2, RDS, S3, ElasticBeanstalk, GithubAction) |
 | Tools | IntelliJ, Gradle|
 
 
@@ -92,9 +92,23 @@
 - 응답의 일관성과 가독성을 높여 클라이언트와의 통신에서 발생할 수 있는 혼란을 줄이고, 코드의 재사용성을 향상시킴.
 <br/>
 
+
 **다중 이미지 업로드 및 비동기 처리로 응답 속도 개선 [[적용 코드](https://github.com/JongMinCh0i/askme/blob/3e03d586e739d22dc3ea9ae4727f551d3053976a/src/main/java/com/example/askme/api/service/file/S3FileStorageService.java#L37)]**
 
 - `@Async`를 사용하여 비동기 처리로 이미지 업로드를 수행함으로써 서버의 응답 속도를 개선하고, 사용자가 빠른 피드백을 받을 수 있도록 함.
 - `AsyncConfig`를 통해 비동기 처리를 위한 스레드 풀 설정을 구성하여 효율적인 리소스 관리를 가능하게 함.
 - 이미지 파일의 확장자 유효성 검사를 통해 잘못된 파일 업로드를 사전에 방지하고, AWS S3에 안전하게 업로드되도록 함.
 <br/>
+
+
+**ElasticBeanstalk를 활용한 모니터링 구현**
+
+| <img width="1558" alt="모니터링 대시보드" src="https://github.com/user-attachments/assets/aa1965dc-1f75-4785-a0ee-12bc14508796"> | <img width="931" alt="경보 설정" src="https://github.com/user-attachments/assets/0dc53b47-abef-48fd-814a-f648f8f3ece0"> |
+|:---:|:---:|
+
+- AWS Elastic Beanstalk를 통해 배포된 애플리케이션에 대한 실시간 모니터링을 수행하여, 시스템 상태 및 성능을 지속적으로 파악함. <br/>
+- Elastic Beanstalk의 환경 경보 설정을 통해 애플리케이션에 문제가 발생할 경우, 어드민에게 이메일 알림을 발송하여 신속하게 대응함. <br/>
+
+
+<br/>
+
